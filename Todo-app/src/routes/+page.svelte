@@ -1,10 +1,13 @@
 <script>
-    let todos = [{todo : "wash car", id : 0}, {todo: "find food", id : 1}]
+    import Entry from "../lib/entry.svelte";
+    let todos = [{todo : "sharpen spear", id : 0}, {todo: "find food", id : 1}]
     let newTodo = ''
 
     function addTodo(){
-        todos = [...todos, {todo: newTodo, id: crypto.randomUUID()}]
-        newTodo = ""
+        if (newTodo){
+            todos = [...todos, {todo: newTodo, id: crypto.randomUUID()}]
+            newTodo = ""
+        }
     }
 
     function completedTodo(entry){
@@ -18,15 +21,10 @@
 
     <ul class="todo-list">
         {#each todos as item (item.id)}
-        <li><input 
-            type="checkbox" 
-            on:click={completedTodo(item)}/> {item.todo} </li>
+            <Entry todo={item.todo}/>
         {/each}
-        <input bind:value={newTodo}/>
-
+        <input bind:value={newTodo} on:blur={addTodo}/>
     </ul>
-
-    <button class="add-button" on:click={addTodo}> Add Entry</button>
 
 </main>
 
@@ -41,10 +39,6 @@
 
     .todo-list{
         list-style: none;
-    }
-
-    .add-button {
-        margin-top: 10px;
     }
     
 </style>
