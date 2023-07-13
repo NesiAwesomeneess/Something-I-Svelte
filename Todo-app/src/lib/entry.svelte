@@ -1,25 +1,34 @@
 <script>
-    export let todo = 'new'
-    let beingEditted = false
+    import {createEventDispatcher} from 'svelte'
+
+    const dispatcher = createEventDispatcher()
+
+    export let entry = {task: "new", id: 0, completed: false}
+    export let task = entry.task
+    let editing = false
 
     function initialEntryEdit(){
-        beingEditted = true
+        editing = true
+    }
 
+    function finishEntryEdit(){
+        editing = false
+        dispatcher("edit", {entry: entry})
     }
 
 </script>
 
 <!-- this is a list entry essentially -->
 <li>
-    <input type="checkbox"/>
-    {#if beingEditted}
+    <input type="checkbox" bind:checked={entry.completed}/>
+    {#if editing}
         <input class="edit-entry"
-        bind:value={todo}
-        on:blur={beingEditted = !beingEditted}/>
+        bind:value={task}
+        on:blur={finishEntryEdit}/>
     {:else}
         <button class="entry" 
         on:click={initialEntryEdit}>
-        {todo}
+        {entry.task}
         </button>
     {/if}
 </li>

@@ -1,17 +1,18 @@
 <script>
     import Entry from "../lib/entry.svelte";
-    let todos = [{todo : "sharpen spear", id : 0}, {todo: "find food", id : 1}]
-    let newTodo = ''
+
+    let todos = [{task : "sharpen spear", id : 0, completed: false}]
+    let newTask = ''
 
     function addTodo(){
-        if (newTodo){
-            todos = [...todos, {todo: newTodo, id: crypto.randomUUID()}]
-            newTodo = ""
+        if (newTask){
+            todos = [...todos, {task: newTask, id: crypto.randomUUID()}]
+            newTask = ""
         }
     }
 
-    function completedTodo(entry){
-        todos = todos.filter(({id}) => {return entry.id !== id })
+    function taskCompleted(){
+        todos = todos.filter(({completed}) => {return !(completed)});
     }
 
 </script>
@@ -20,10 +21,13 @@
     <h1>Todo List</h1>
 
     <ul class="todo-list">
-        {#each todos as item (item.id)}
-            <Entry todo={item.todo}/>
+        {#each todos as entry (entry.id)}
+            <Entry entry={entry} 
+            bind:task={entry.task}
+            />
         {/each}
-        <input bind:value={newTodo} on:blur={addTodo}/>
+        <input bind:value={newTask} on:blur={addTodo}/>
+        <button on:click={taskCompleted}>clear completed</button>
     </ul>
 
 </main>
