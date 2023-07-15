@@ -1,11 +1,9 @@
 <script>
     import Entry from "../lib/entry.svelte";
+    import PointerTrailer from "../lib/pointerTrailer.svelte";
 
     let todos = [{task : "sharpen spear", id : 0, completed: false}]
     let newTask = ''
-
-    let mouseX = 0
-    let mouseY = 0
 
     function addTodo(){
         if (newTask){
@@ -18,62 +16,80 @@
         todos = todos.filter(({completed}) => {return !(completed)});
     }
 
-    window.onmousemove = e => {
-        mouseX = e.clientX
-        mouseY = e.clientY
-    }
-
-
 </script>
 
-<main>
-    <h1>Todo List</h1>
+<body class="page-container">
+    <h1>Plans</h1>
+    
 
-    <ul class="todo-list">
+    <div class="todo-list">
         {#each todos as entry (entry.id)}
             <Entry id={entry.id} 
             bind:task={entry.task}
             bind:completed={entry.completed}/>
         {/each}
-
-        <input 
+        
+        <input class="entry-input"
         bind:value={newTask} 
         on:blur={addTodo} 
         on:keypress={(event) => {if (event.key === "Enter"){
             addTodo()
         }}}/>
+    
+        <!-- <button on:click={taskCompleted}>clear completed</button> -->
+    </div>
+</body>
 
-        <button on:click={taskCompleted}>clear completed</button>
-    </ul>
-
-    <div class="mouse-trail" x="{mouseX}px"></div>
-
-</main>
+<PointerTrailer/>
 
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
 
     h1{
         margin: 20px;
+        color: rgb(255, 255, 255);
     }
 
-    .todo-list{
-        list-style: none;
+    .todo-list {
+        display: grid;
+        flex-direction: column;
+        gap: 4px;
+
+        justify-self: center;
+        align-self: center;
+
+        /* padding: 30px;
+        border-radius: 20px;
+        background-color: rgb(52, 52, 51) */
     }
 
-    .mouse-trail {
-        position: fixed;
-        left: var(x);
-        top: 0px;
-        z-index: 200;
+    .entry-input {
+        border: solid;
+        border-radius: 20px;
+        border-width: 1.4px;
 
-        background-color: rgb(53, 52, 52);
+        justify-self: center;
 
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
+        min-height: 30px;
+        width: 200px;
+        padding: 5px 20px;
 
-        pointer-events: none;
+        background-color: wheat;
+    }
 
+    .page-container {
+        display: grid;
+        grid-template-rows: 1fr 400px 1fr;
+
+        position: absolute;
+        margin: 0;
+
+        height: 100vh;
+        width: 100vw;
+        background-color: rgb(0, 0, 0);
     }
     
 </style>
