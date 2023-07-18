@@ -26,7 +26,12 @@
                 {task}
             </span>
         {:else}
-            <input class="entry-edit"
+            <textarea class="entry-edit"
+            on:input={(event) => {
+                const input = event.target;
+                input.style.height = "1.6rem";
+                input.style.height = input.scrollHeight + "px"}
+            }
             bind:value={newTask}
             on:focus={(event) => event.target.select()}
             on:blur={finishedEdit}
@@ -38,20 +43,26 @@
         <br/>
         <span class="entry-date"> Mon 12 12 2012</span>
     </div>
-
-
 </div>
 
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+
+        font-family: 'Montserrat';
+    }
+
     .entry {
         display: flex;
         flex-direction: row;
 
-        gap: 8px;
+        gap: 0.5rem;
+        width: 100%;
     }
 
     .entry-date{
-        font-size: 8px;
+        font-size: 0.57143rem;
         font-weight: 600;
 
         color: #F4EFE0;
@@ -80,19 +91,25 @@
     .entry-wrapper{
         gap: 4px;
 
-        padding: 8px 16px;
-        
-        min-width: 280px;
-        border-radius: 4px 4px 20px 20px;
+        padding: 0.5em;
+        min-width: calc(100% - 3.5em);
+        align-items: flex-end;
+
+        border-radius: 0.25em 0.25em 1.2em 1.2em;
         background-color: #E14834;
     }
 
     .entry-edit {
         position: relative;
         text-align: left;
+        resize: none;
 
-        font-size: 16px;
-        font-weight: 600;
+        width: 100%;
+
+        font-size: 1rem;
+        line-height: 1.15em;
+        height: 1.6rem;
+        font-weight: 700;
 
         border: none;
         color: #1B1C1F;
@@ -100,8 +117,6 @@
     }
 
     .entry-edit:focus-visible {
-        resize: horizontal;
-
         border-style: none;
         outline-style: none;
     }

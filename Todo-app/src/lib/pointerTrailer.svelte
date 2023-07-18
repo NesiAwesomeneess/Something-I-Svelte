@@ -7,12 +7,11 @@
 		damping: 0.2
     })
 
-    let size = 40
+    let size = 32
 
     onMount(() => {
         onmousemove = e => {
             coords.set({ x: e.clientX, y: e.clientY});
-            console.log(e.target);
         }
     })
 
@@ -23,7 +22,6 @@ id="mouse-trail"
 style="width: {size}px; height : {size}px;
 left: {$coords.x + (size / 2)}px; 
 top: {$coords.y - (size)}px;"></div>
-
 
 <style>
     #mouse-trail {
