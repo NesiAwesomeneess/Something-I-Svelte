@@ -7,7 +7,7 @@
 		damping: 0.2
     })
 
-    let size = 32
+    let size = 30
 
     onMount(() => {
         onmousemove = e => {
@@ -17,22 +17,34 @@
 
 </script>
 
-<div 
-id="mouse-trail" 
-style="width: {size}px; height : {size}px;
+<div id="mouse-trail" style="width: {size + 8}px; height : {size + 8}px;
 left: {$coords.x + (size / 2)}px; 
-top: {$coords.y - (size)}px;"></div>
+top: {$coords.y - (size)}px;">
+
+<div id="trail-outline" style="width:{size}px; height : {size}px;
+left: {4}px; 
+top: {4}px;">
+
+</div></div>
 
 <style>
     #mouse-trail {
         position: fixed;
         z-index: 200;
 
-        background-color: #F4EFE0;
+        background-color: #1B1C1F;
         border-radius: 50%;
-
+        
         pointer-events: none;
         box-shadow: 5px 5px 5px -2px rgba(0, 0, 0, 0.094);
+    }
+    
+    #trail-outline {
+        position: absolute;
+        z-index: 0;
+        
+        border-radius: 50%;
+        background-color: #F4EFE0;
     }
 
 </style>

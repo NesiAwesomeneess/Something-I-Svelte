@@ -62,34 +62,34 @@
     }
 
     .entry-date{
-        font-size: 0.57143rem;
+        font-size: 0.57rem;
         font-weight: 600;
 
         color: #F4EFE0;
-        padding: 4px 8px;
+        padding: 0.25rem 0.5rem;
 
         background-color: #1B1C1F;
-        border-radius: 8px;
+        border-radius: 0.5rem;
     }
 
     .checkbox[type="checkbox"] {
         appearance: none;
 
-        width: 34px;
-        height: 32px;
+        width: 2.125rem;
+        height: 2rem;
 
-        border-radius: 24px 8px 24px 24px;
+        border-radius: 1.25rem 0.5rem 1.25rem 1.25rem;
 
         margin: 0;
 
         border: solid #1B1C1F;
-        border-width: 4px;
+        border-width: 0.25rem;
         
         background-color: #E14834;
     }
 
     .entry-wrapper{
-        gap: 4px;
+        gap: 0.25em;
 
         padding: 0.5em;
         min-width: calc(100% - 3.5em);
