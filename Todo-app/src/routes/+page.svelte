@@ -3,7 +3,7 @@
     import PointerTrailer from "../lib/pointerTrailer.svelte";
 
     let todos = [{task : "sharpen spear", id : 0, completed: false}]
-    let newTask = ''
+    let newTask = 'New Task?'
 
     function addTodo(){
         if (newTask){
@@ -19,9 +19,6 @@
 </script>
 
 <body class="page-container">
-    <h1>Plans</h1>
-    
-
     <div class="todo-list">
         {#each todos as entry (entry.id)}
             <Entry id={entry.id} 
@@ -38,6 +35,7 @@
     
         <!-- <button on:click={taskCompleted}>clear completed</button> -->
     </div>
+    
 </body>
 
 <PointerTrailer/>
@@ -48,48 +46,50 @@
         padding: 0;
     }
 
-    h1{
-        margin: 20px;
-        color: rgb(255, 255, 255);
-    }
-
     .todo-list {
         display: grid;
-        flex-direction: column;
+        grid-auto-flow: row;
+
         gap: 4px;
 
         justify-self: center;
         align-self: center;
 
-        /* padding: 30px;
-        border-radius: 20px;
-        background-color: rgb(52, 52, 51) */
+        justify-content: end;
+        align-content: end;
+
+        width: 312px;
+        height: 360px;
+
+        padding: 4px;
+        border-radius: 28px;
+        background-color: #1B1C1F
     }
 
     .entry-input {
-        border: solid;
-        border-radius: 20px;
-        border-width: 1.4px;
+        border: none;
+        border-radius: 8px 8px 24px 24px;
 
-        justify-self: center;
+        justify-self: end;
 
-        min-height: 30px;
-        width: 200px;
-        padding: 5px 20px;
+        font-size: 16px;
+        color: #1B1C1F;
 
-        background-color: wheat;
+        min-width: 280px;
+        padding: 8px 16px;
+
+        background-color: #2B3039;
     }
 
     .page-container {
         display: grid;
-        grid-template-rows: 1fr 400px 1fr;
 
         position: absolute;
         margin: 0;
 
         height: 100vh;
         width: 100vw;
-        background-color: rgb(0, 0, 0);
+        background-color: #2B3039;
     }
     
 </style>

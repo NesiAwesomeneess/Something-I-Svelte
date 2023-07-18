@@ -30,7 +30,7 @@ top: {$coords.y - (size)}px;"></div>
         position: fixed;
         z-index: 200;
 
-        background-color: rgb(255, 255, 255);
+        background-color: #F4EFE0;
         border-radius: 50%;
 
         pointer-events: none;

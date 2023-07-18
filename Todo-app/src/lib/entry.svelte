@@ -20,19 +20,25 @@
 <div class="entry">
     <input type="checkbox" class="checkbox" bind:checked={completed}/>
 
-    {#if completed}
-        <span class="completed-task">
-            {task}
-        </span>
-    {:else}
-        <input class="entry-edit"
-        bind:value={newTask}
-        on:focus={(event) => event.target.select()}
-        on:blur={finishedEdit}
-        on:keypress={(event) => {if (event.key === "Enter"){
-            finishedEdit()
-        }}}/>
-    {/if}
+    <div class="entry-wrapper">
+        {#if completed}
+            <span class="completed-task">
+                {task}
+            </span>
+        {:else}
+            <input class="entry-edit"
+            bind:value={newTask}
+            on:focus={(event) => event.target.select()}
+            on:blur={finishedEdit}
+            on:keypress={(event) => {if (event.key === "Enter"){
+                finishedEdit()
+            }}}/>
+        {/if}
+        
+        <br/>
+        <span class="entry-date"> Mon 12 12 2012</span>
+    </div>
+
 
 </div>
 
@@ -41,56 +47,56 @@
         display: flex;
         flex-direction: row;
 
-        border-radius: 20px;
-        background-color: rgb(223, 139, 112);
+        gap: 8px;
+    }
 
+    .entry-date{
+        font-size: 8px;
+        font-weight: 600;
+
+        color: #F4EFE0;
+        padding: 4px 8px;
+
+        background-color: #1B1C1F;
+        border-radius: 8px;
     }
 
     .checkbox[type="checkbox"] {
         appearance: none;
 
-        position: relative;
-        display: grid;
+        width: 34px;
+        height: 32px;
 
-        place-content: center;
+        border-radius: 24px 8px 24px 24px;
 
-        width: 16px;
-        height: 16px;
+        margin: 0;
 
-        left: 6px;
-
-        border-radius: 50%;
-
-        background-color: rgba(255, 255, 255, 0.12);
-        align-self: center;
-    }
-
-    .checkbox[type="checkbox"]::before{
-        content: "";
-
-        width: 24px;
-        height: 24px;
-
-        border: 2px solid rgba(255, 255, 255, 0.12);
-        border-radius: 50%;
+        border: solid #1B1C1F;
+        border-width: 4px;
         
+        background-color: #E14834;
     }
 
+    .entry-wrapper{
+        gap: 4px;
+
+        padding: 8px 16px;
+        
+        min-width: 280px;
+        border-radius: 4px 4px 20px 20px;
+        background-color: #E14834;
+    }
 
     .entry-edit {
         position: relative;
-        
-        font-size: 1rem;
-        font-weight: 600;
-        resize: vertical;
+        text-align: left;
 
-        
-        min-height: 30px;
-        width: 200px;
-        padding: 5px 20px;
-        
+        font-size: 16px;
+        font-weight: 600;
+
         border: none;
-        background-color: rgba(255, 255, 255, 0);
+        color: #1B1C1F;
+        background: none;
     }
 
     .entry-edit:focus-visible {
