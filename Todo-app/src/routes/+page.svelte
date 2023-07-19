@@ -1,4 +1,5 @@
 <script>
+    import BackgroundDecorations from "../lib/BackgroundDecorations.svelte";
     import ContainerDecoration from "../lib/ContainerDecoration.svelte";
     import Entry from "../lib/Entry.svelte";
     import PointerTrailer from "../lib/PointerTrailer.svelte";
@@ -6,17 +7,25 @@
     let todos = [{task : "Sharpen spear.", id : 0, completed: false}]
     let newTask = 'New Task?'
 
+    let taskInput;
+
+    $: if ((newTask.length > -1) && taskInput){
+        taskInput.style.height = "1.75rem";
+        taskInput.style.height = taskInput.scrollHeight - 8 + "px";
+    }
+
+
     function addTodo(){
         if (newTask){
-            todos = [...todos, {task: newTask, id: crypto.randomUUID()}]
+            todos = [...todos, {task: newTask, id : crypto.randomUUID()}]
         }
-
+        
         newTask = "New Task?"
     }
 
-    function taskCompleted(){
-        todos = todos.filter(({completed}) => {return !(completed)});
-    }
+    // function taskCompleted(){
+    //     todos = todos.filter(({completed}) => {return !(completed)});
+    // }
 
 </script>
 
@@ -35,17 +44,19 @@
             </div>
             
             <textarea class="entry-input"
-            on:input={(event) => {
-                const input = event.target;
-                input.style.height = "1.rem";
-                input.style.height = input.scrollHeight + "px"}
-            }
+            bind:this={taskInput}
+            bind:value={newTask}
+
             on:focus={() => newTask=""}
-            bind:value={newTask} 
-            on:blur={addTodo} 
-            on:keypress={(event) => {if (event.key === "Enter"){
-                addTodo()
-            }}}/>
+            on:blur={() => addTodo()}
+            
+            on:keydown={(event) => {
+                if (event.key === "Enter"){
+                    event.target.blur();
+                    return
+                }
+            }}
+            />
             
             <button class='bookmark'>
                 <svg width="32" height="39" viewBox="0 0 32 39" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -65,6 +76,8 @@
             
         </div>
     </div>
+
+    <BackgroundDecorations/>
 </main>
 
 
@@ -77,6 +90,7 @@
     }
     
     .page {
+        position: relative;
         display: grid;
         place-items: center;
     
@@ -84,7 +98,7 @@
     
         height: 100vh;
         width: 100vw;
-        background-color: #2B3039;
+        overflow: hidden;
     }
 
     .content-wrapper{
@@ -100,7 +114,7 @@
         width: 80%;
 
         max-height: 40em;
-        height: 80%;
+        height: 75%;
 
         place-content: center;
     }
@@ -112,8 +126,12 @@
         width: 100%;
         height: 100%;
 
-        border-radius: 1.4em;
+        padding: 0.25em;
+
+        border-radius: 1.5em;
         background-color: #1B1C1F;
+        box-shadow: 5px 5px 5px -2px rgba(20, 20, 20, 0.187);
+
     }
 
     .detail-wrapper::before{
@@ -123,13 +141,15 @@
         width: 0.25em;
         height: 100%;
 
-        left: -0.5em;
+        left: -0.75em;
         
         border-radius: 0.25em;
         background-color: #1B1C1F;
     }
 
     .todo-list {
+        box-shadow: 5px 5px 5px -2px rgba(20, 20, 20, 0.187);
+
         grid-area: todo;
         display: flex;
         flex-direction: column;
@@ -140,26 +160,28 @@
         align-items: start;
         justify-self: end;
         
-        max-width: 38em;
+        max-width: 36em;
         width: calc(100% - 3.125em);
 
         height: 100%;
         
         padding: 0.25em;
-        border-radius: 1.5em;
-        background-color: #1B1C1F
+        border-radius: 1.75em;
+        background-color: #1B1C1F;
     }
     
     .entries-wrapper{
         display: flex;
+        flex-direction: column;
+
         gap: 0.25em;
         
         height: 100%;
-        width: calc(100% + 2.5em);
+        width: calc(100% + 2.75em);
         
         align-self: end;
-        justify-items: end;
-        align-items: end;
+        justify-content: end;
+        align-content: end;
         
         border-radius: 1.25em;
         overflow: hidden;
@@ -174,11 +196,11 @@
         
         justify-self: end;
         
-        font-size: 1rem;
+        font-size: 1.25rem;
         font-weight: 600;
         font-style: italic;
         
-        height: 1.4rem;
+        height: 1.6rem;
         color: #1B1C1F;
         
         width: calc(100% - 1em);
@@ -191,10 +213,13 @@
     .entry-input:focus-visible {
         border-style: none;
         outline-style: none;
+
+        font-style:normal;
     }
 
     .bookmark{
         position: absolute;
+        
         appearance: none;
         border: none;
         background: none;

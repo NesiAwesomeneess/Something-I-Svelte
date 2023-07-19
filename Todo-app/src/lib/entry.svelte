@@ -1,8 +1,15 @@
 <script>
     export let completed = false
-    export let id
+    export let id;
     export let task = "new"
     let newTask = task
+
+    let textArea;
+
+    $: if ((newTask.length > -1) && textArea){
+        textArea.style.height = "1.75rem";
+        textArea.style.height = textArea.scrollHeight + "px";
+    }
 
     function finishedEdit(){
         if (newTask){
@@ -10,7 +17,6 @@
             return
         }
         newTask = task
-// I just put this here because I was tired of the error
         id = id
     }
 
@@ -27,17 +33,18 @@
             </span>
         {:else}
             <textarea class="entry-edit"
-            on:input={(event) => {
-                const input = event.target;
-                input.style.height = "1.6rem";
-                input.style.height = input.scrollHeight + "px"}
-            }
+            bind:this={textArea}
             bind:value={newTask}
-            on:focus={(event) => event.target.select()}
-            on:blur={finishedEdit}
-            on:keypress={(event) => {if (event.key === "Enter"){
-                finishedEdit()
-            }}}/>
+            on:focus={textArea.select()}
+            on:blur={() => finishedEdit()}
+
+            on:keydown={(event) => {
+                if (event.key === "Enter"){
+                    textArea.blur()
+                    return
+                }
+            }}
+            />
         {/if}
         
         <br/>
@@ -57,26 +64,28 @@
         display: flex;
         flex-direction: row;
 
+        align-self: end;
+
         gap: 0.5rem;
         width: 100%;
     }
 
     .entry-date{
-        font-size: 0.57rem;
+        font-size: 0.6rem;
         font-weight: 600;
 
         color: #F4EFE0;
         padding: 0.25rem 0.5rem;
 
         background-color: #1B1C1F;
-        border-radius: 0.5rem;
+        border-radius: 0.6rem;
     }
 
     .checkbox[type="checkbox"] {
         appearance: none;
 
-        width: 2.125rem;
-        height: 2rem;
+        min-width: 2.25rem;
+        height: 2.125rem;
 
         border-radius: 1.25rem 0.5rem 1.25rem 1.25rem;
 
@@ -92,7 +101,7 @@
         gap: 0.25em;
 
         padding: 0.5em;
-        min-width: calc(100% - 3.5em);
+        min-width: calc(100% - 3.75em);
         align-items: flex-end;
 
         border-radius: 0.25em 0.25em 1.2em 1.2em;
@@ -105,10 +114,10 @@
         resize: none;
 
         width: 100%;
-
-        font-size: 1rem;
+        
+        font-size: 1.25rem;
         line-height: 1.15em;
-        height: 1.6rem;
+        height: 1.75rem;
         font-weight: 700;
 
         border: none;

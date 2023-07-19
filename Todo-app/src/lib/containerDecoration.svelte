@@ -19,13 +19,13 @@
 
         max-height: 40em;
         height: calc(100% - 0.25em);
-        max-width: 38em;
+        max-width: 36em;
         width: calc(100% - 3.125em);
 
         justify-self: end;
         align-self: end;
         
-        border-radius: 1.2em;
+        border-radius: 1.5em;
         background: linear-gradient(178deg, #E04834 -100%, #1B1C1F 50%);
         z-index: 0;
 
