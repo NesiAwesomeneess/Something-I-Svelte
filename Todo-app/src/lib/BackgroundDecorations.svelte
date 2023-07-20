@@ -1,11 +1,11 @@
 <div class="background">
     
     <svg class="circle-2" width="300" height="300" preserveAspectRatio="none">
-        <circle cy=50% cx=50% r=80 fill="#F4EFE0" filter="blur(30px)"/>
+        <circle cy=50% cx=50% r=80 fill="#F4EFE0" filter="blur(16px)"/>
     </svg>
 
     <svg class="circle-3" width="300" height="300" preserveAspectRatio="none">
-        <circle cy=50% cx=50% r=80 fill="#3C5BAE" filter="blur(20px)"/>
+        <circle cy=50% cx=50% r=80 fill="#3C5BAE" filter="blur(16px)"/>
     </svg>
 
     <svg class="circle-1" width="300" height="300" preserveAspectRatio="none">

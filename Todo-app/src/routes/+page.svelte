@@ -10,7 +10,7 @@
     let taskInput;
 
     $: if ((newTask.length > -1) && taskInput){
-        taskInput.style.height = "1.75rem";
+        taskInput.style.height = "1.5rem";
         taskInput.style.height = taskInput.scrollHeight - 8 + "px";
     }
 
@@ -73,10 +73,8 @@
         <ContainerDecoration/>
 
         <div class="detail-wrapper">
-            
         </div>
     </div>
-
     <BackgroundDecorations/>
 </main>
 
@@ -194,13 +192,11 @@
         
         border-radius: 0.25em 0.25em 1.25em 1.25em;
         
-        justify-self: end;
-        
         font-size: 1.25rem;
-        font-weight: 600;
+        font-weight: 500;
         font-style: italic;
         
-        height: 1.6rem;
+        height: 1.5rem;
         color: #1B1C1F;
         
         width: calc(100% - 1em);
@@ -208,13 +204,21 @@
         
         background-color: #2B3039;
         z-index: 1;
+
+        caret-color: #F4EFE0;
+    }
+
+    .entry-input::selection{
+        background-color: #1B1C1F;
     }
     
     .entry-input:focus-visible {
         border-style: none;
         outline-style: none;
-
+        
         font-style:normal;
+        font-weight: 600;
+        color: #F4EFE0;
     }
 
     .bookmark{

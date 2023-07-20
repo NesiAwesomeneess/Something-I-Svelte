@@ -125,6 +125,11 @@
         background: none;
     }
 
+    .entry-edit::selection{
+        background-color: #F4EFE0;
+        color: #2B3039;
+    }
+
     .entry-edit:focus-visible {
         border-style: none;
         outline-style: none;
