@@ -1,12 +1,15 @@
 <script>
-    import BackgroundDecorations from "../lib/BackgroundDecorations.svelte";
-    import ContainerDecoration from "../lib/ContainerDecoration.svelte";
+    import {Canvas} from '@threlte/core'
+
+    import BackgroundLayout from '../lib/Background/BackgroundLayout.svelte';
+    import ContainerDecoration from "../lib/ContainDecoration/ContainerDecoration.svelte";
     import Entry from "../lib/Entry.svelte";
     import PointerTrailer from "../lib/PointerTrailer.svelte";
 
     let todos = [{task : "Sharpen spear.", id : 0, completed: false}]
     let newTask = 'New Task?'
 
+    let mousePosition = {x: 0, y: 0}
     let taskInput;
 
     $: if ((newTask.length > -1) && taskInput){
@@ -14,12 +17,11 @@
         taskInput.style.height = taskInput.scrollHeight - 8 + "px";
     }
 
-
     function addTodo(){
         if (newTask){
             todos = [...todos, {task: newTask, id : crypto.randomUUID()}]
         }
-        
+
         newTask = "New Task?"
     }
 
@@ -29,9 +31,9 @@
 
 </script>
 
-<main class="page">
-    <PointerTrailer/>
-
+<main class="page" 
+on:mousemove={(e) => {mousePosition.x = e.clientX; mousePosition.y = e.clientY;}}>
+    
     <div class="content-wrapper">
         <div class="todo-list">
             <div class="entries-wrapper">
@@ -46,7 +48,7 @@
             <textarea class="entry-input"
             bind:this={taskInput}
             bind:value={newTask}
-
+            
             on:focus={() => newTask=""}
             on:blur={() => addTodo()}
             
@@ -61,23 +63,33 @@
             <button class='bookmark'>
                 <svg width="32" height="39" viewBox="0 0 32 39" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g id="BookMark">
-                    <mask id="path-1-inside-1_4_11" fill="white">
-                    <path d="M0 36.2387V8C0 3.58172 3.58172 0 8 0H24C28.4183 0 32 3.58172 32 8V36.2387C32 37.8409 30.21 38.7927 28.8817 37.8968L18.2367 30.717C16.885 29.8053 15.1151 29.8053 13.7633 30.717L3.11834 37.8968C1.78998 38.7927 0 37.8409 0 36.2387Z"/>
-                    </mask>
-                    <path d="M0 36.2387V8C0 3.58172 3.58172 0 8 0H24C28.4183 0 32 3.58172 32 8V36.2387C32 37.8409 30.21 38.7927 28.8817 37.8968L18.2367 30.717C16.885 29.8053 15.1151 29.8053 13.7633 30.717L3.11834 37.8968C1.78998 38.7927 0 37.8409 0 36.2387Z" fill="#2B3039" stroke="#1B1C1F" stroke-width="8" mask="url(#path-1-inside-1_4_11)"/>
+                        <mask id="path-1-inside-1_4_11" fill="white">
+                            <path d="M0 36.2387V8C0 3.58172 3.58172 0 8 0H24C28.4183 0 32 3.58172 32 8V36.2387C32 37.8409 30.21 38.7927 28.8817 37.8968L18.2367 30.717C16.885 29.8053 15.1151 29.8053 13.7633 30.717L3.11834 37.8968C1.78998 38.7927 0 37.8409 0 36.2387Z"/>
+                        </mask>
+                        <path d="M0 36.2387V8C0 3.58172 3.58172 0 8 0H24C28.4183 0 32 3.58172 32 8V36.2387C32 37.8409 30.21 38.7927 28.8817 37.8968L18.2367 30.717C16.885 29.8053 15.1151 29.8053 13.7633 30.717L3.11834 37.8968C1.78998 38.7927 0 37.8409 0 36.2387Z" fill="#2B3039" stroke="#1B1C1F" stroke-width="8" mask="url(#path-1-inside-1_4_11)"/>
                     </g>
                 </svg>
             </button>
         </div>
-
-        <ContainerDecoration/>
-
+        
+        <div class="decoration-frame">
+            <Canvas>
+                <ContainerDecoration/>
+            </Canvas>
+        </div>
+        
         <div class="detail-wrapper">
         </div>
     </div>
-    <BackgroundDecorations/>
-</main>
+    
+    <div class="background">
+        <Canvas>
+            <BackgroundLayout bind:mousePosition={mousePosition}/>
+        </Canvas>
+    </div>
 
+    <PointerTrailer bind:mousePosition={mousePosition}/>
+</main>
 
 <style>
     * {
@@ -85,6 +97,14 @@
         padding: 0;
 
         font-family: 'Montserrat';
+    }
+
+    .background{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+
+        z-index: -1;
     }
     
     .page {
@@ -143,6 +163,26 @@
         
         border-radius: 0.25em;
         background-color: #1B1C1F;
+    }
+
+    .decoration-frame{
+        grid-area: todo;
+        position: relative;
+        left: -4px;
+
+        max-height: 40em;
+        height: calc(100% - 0.25em);
+        max-width: 36em;
+        width: calc(100% - 3.125em);
+
+        justify-self: end;
+        align-self: end;
+        
+        border-radius: 1.5em;
+        background: linear-gradient(178deg, #E04834 -100%, #1B1C1F 50%);
+        z-index: 0;
+
+        overflow: hidden;
     }
 
     .todo-list {

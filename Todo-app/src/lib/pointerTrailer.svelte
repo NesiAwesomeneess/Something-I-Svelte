@@ -1,19 +1,15 @@
 <script>
     import { spring } from 'svelte/motion';
-    import { onMount } from 'svelte';
-
+    
     let coords = spring({x: 0, y: 0}, {
 		stiffness: 0.02,
 		damping: 0.2
     })
 
-    let size = 30
+    export let mousePosition = {x: 0, y: 0}
+    $: coords.set({x: mousePosition.x, y: mousePosition.y})
 
-    onMount(() => {
-        onmousemove = e => {
-            coords.set({ x: e.clientX, y: e.clientY});
-        }
-    })
+    let size = 30
 
 </script>
 
@@ -41,7 +37,7 @@ top: {4}px;">
     
     #trail-outline {
         position: absolute;
-        z-index: 0;
+        z-index: -1;
         
         border-radius: 50%;
         background-color: #F4EFE0;
