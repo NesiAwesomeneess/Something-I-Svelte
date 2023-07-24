@@ -1,13 +1,12 @@
 <script>
     import {OrthographicCamera, Mesh, useFrame} from '@threlte/core'
-    import {Color, PlaneGeometry, ShaderMaterial} from 'three'
+    import {PlaneGeometry, ShaderMaterial} from 'three'
 
     import fragmentShader from './Shaders/fragment.glsl'
     import vertexShader from './Shaders/vertex.glsl'
 
     let uniforms = {
-        uColor : {value: new Color(1.0, 0.0, 0.0)},
-        uTime : {value: 0.0},
+        uTime : {value: 0.0}
     }
 
     const material = new ShaderMaterial({
@@ -15,7 +14,7 @@
         vertexShader,
         fragmentShader,
     });
-
+    
 </script>
 
 <OrthographicCamera

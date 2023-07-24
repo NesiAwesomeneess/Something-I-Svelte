@@ -117,7 +117,7 @@ void main(){
     vec2 randomUV = vec2(random(vUv));
     float staticNoise = random(randomUV) * 0.02;
 
-    float factor = (ratioStepped * valueInverted) - staticNoise;
+    float factor = clamp(0.0, 1.0, (ratioStepped * valueInverted) - staticNoise);
 
     vec3 finalColor;
     ColorRamp(palette, factor, finalColor);

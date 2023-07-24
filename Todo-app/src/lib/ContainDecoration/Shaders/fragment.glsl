@@ -11,7 +11,7 @@ ColorStop[5] palette = ColorStop[](
     ColorStop(vec3(0.11, 0.11, 0.12), 0.3),
     ColorStop(vec3(0.34, 0.23, 0.68), 0.6),
     ColorStop(vec3(0.43, 0.56, 0.92), 0.8),
-    ColorStop(vec3(0.96, 0.94, 0.88), 0.95)
+    ColorStop(vec3(0.96, 0.94, 0.88), 1.0)
 );
 
 #define ColorRamp(colors, factor, finalColor) { \
@@ -39,7 +39,7 @@ float random(vec2 p){
 }
 
 void main(){
-    float d = 1.0 - length(vUv - vec2(0.5, 0.9));
+    float d = 1.0 - length(vUv - vec2(0.5, 0.95));
     float gradient = smoothstep(0.0, 1.0, d);
 
     //GRAIN

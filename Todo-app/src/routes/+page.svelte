@@ -12,6 +12,9 @@
     let mousePosition = {x: 0, y: 0}
     let taskInput;
 
+    let accentColor;
+    let primaryColor;
+
     $: if ((newTask.length > -1) && taskInput){
         taskInput.style.height = "1.5rem";
         taskInput.style.height = taskInput.scrollHeight - 8 + "px";
@@ -84,7 +87,9 @@ on:mousemove={(e) => {mousePosition.x = e.clientX; mousePosition.y = e.clientY;}
     
     <div class="background">
         <Canvas>
-            <BackgroundLayout bind:mousePosition={mousePosition}/>
+            <BackgroundLayout 
+            bind:mousePosition={mousePosition}
+            />
         </Canvas>
     </div>
 
@@ -232,12 +237,12 @@ on:mousemove={(e) => {mousePosition.x = e.clientX; mousePosition.y = e.clientY;}
         
         border-radius: 0.25em 0.25em 1.25em 1.25em;
         
-        font-size: 1.25rem;
+        font-size: 1.2rem;
         font-weight: 500;
         font-style: italic;
         
         height: 1.5rem;
-        color: #1B1C1F;
+        color: #fef5ec;
         
         width: calc(100% - 1em);
         padding: 0.25em 0.5em;
@@ -245,7 +250,7 @@ on:mousemove={(e) => {mousePosition.x = e.clientX; mousePosition.y = e.clientY;}
         background-color: #2B3039;
         z-index: 1;
 
-        caret-color: #F4EFE0;
+        caret-color: #fef5ec;
     }
 
     .entry-input::selection{

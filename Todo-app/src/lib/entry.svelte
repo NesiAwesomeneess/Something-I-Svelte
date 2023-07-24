@@ -39,11 +39,9 @@
             on:blur={() => finishedEdit()}
 
             on:keydown={(event) => {
-                if (event.key === "Enter"){
-                    textArea.blur()
-                    return
-                }
-            }}
+                if (event.key === "Enter"){textArea.blur()
+            }}}
+            
             />
         {/if}
         
@@ -54,6 +52,7 @@
 
 <style>
     * {
+        
         margin: 0;
         padding: 0;
 

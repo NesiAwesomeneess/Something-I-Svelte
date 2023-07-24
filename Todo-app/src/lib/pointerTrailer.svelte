@@ -40,7 +40,7 @@ top: {4}px;">
         z-index: -1;
         
         border-radius: 50%;
-        background-color: #F4EFE0;
+        background-color: #fef5ec;
     }
 
 </style>

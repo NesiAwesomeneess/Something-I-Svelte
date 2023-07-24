@@ -1,32 +1,21 @@
 <script>
     import {OrthographicCamera, Mesh, useFrame} from '@threlte/core'
-    import {Color, PlaneGeometry, ShaderMaterial, Vector2} from 'three'
+    import {PlaneGeometry, ShaderMaterial, Vector2} from 'three'
 
     import fragmentShader from './Shaders/fragment.glsl'
     import vertexShader from './Shaders/vertex.glsl'
     import { spring } from 'svelte/motion';
 
-    let mouseUV = spring({
-        x : 0,
-        y : 0
-    },{
+    export let mousePosition = new Vector2();
+    let mouseUV = spring(mousePosition,{
         stiffness: 0.01,
         damping: 0.2,
         precision : 0.0005
     })
 
-    window.innerHeight
-    export let mousePosition = {x: 0, y: 0}
-    $: mouseUV.set({
-        x: 1.0 - ((mousePosition.x * 0.6) / window.innerWidth),
-        y: 1.0 - ((mousePosition.y * 0.8) / window.innerHeight)
-    });
-
-
     let uniforms = {
-        uColor : {value: new Color(1.0, 0.0, 0.0)},
         uTime : {value: 0.0},
-        uMouseUV : {value: new Vector2()}
+        uMouseUV : {value: mouseUV}
     }
 
     const planeMaterial = new ShaderMaterial({
@@ -35,12 +24,17 @@
         fragmentShader
     });
 
-    $: uniforms.uMouseUV.value = new Vector2($mouseUV.x, $mouseUV.y)
-
+    
     useFrame(({ clock }) => {
         uniforms.uTime.value = clock.getElapsedTime();
-    })
-
+        mouseUV.set(new Vector2(
+            1.0 - ((mousePosition.x * 0.6) / window.innerWidth),
+            1.0 - ((mousePosition.y * 0.8) / window.innerHeight)
+            ));
+        })
+        
+    $: uniforms.uMouseUV.value = $mouseUV;
+    
 </script>
 
 <OrthographicCamera
