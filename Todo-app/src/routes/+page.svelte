@@ -3,8 +3,10 @@
 
     import BackgroundLayout from '../lib/Background/BackgroundLayout.svelte';
     import ContainerDecoration from "../lib/ContainDecoration/ContainerDecoration.svelte";
+    
     import Entry from "../lib/PageComponents/Entry.svelte";
     import PointerTrailer from "../lib/PageComponents/PointerTrailer.svelte";
+    import BookmarkButton from '../lib/PageComponents/BookmarkButton.svelte';
 
     let todos = [{task : "Sharpen spear.", id : 0, completed: false}]
     let newTask = 'New Task?'
@@ -48,31 +50,25 @@ on:mousemove={(e) => {
                 {/each}
             </div>
             
-            <textarea class="entry-input"
-            bind:this={taskInput}
-            bind:value={newTask}
-            
-            on:focus={() => newTask=""}
-            on:blur={() => addTodo()}
-            
-            on:keydown={(event) => {
-                if (event.key === "Enter"){
-                    event.target.blur();
-                    return
-                }
-            }}
+            <textarea 
+
+                class="entry-input"
+                bind:this={taskInput}
+                bind:value={newTask}
+                
+                on:focus={() => newTask=""}
+                on:blur={() => addTodo()}
+                
+                on:keydown={(event) => {
+                    if (event.key === "Enter"){
+                        event.target.blur();
+                        return
+                    }
+                }}
+
             />
             
-            <button class='bookmark'>
-                <svg width="32" height="39" viewBox="0 0 32 39" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g id="BookMark">
-                        <mask id="path-1-inside-1_4_11" fill="white">
-                            <path d="M0 36.2387V8C0 3.58172 3.58172 0 8 0H24C28.4183 0 32 3.58172 32 8V36.2387C32 37.8409 30.21 38.7927 28.8817 37.8968L18.2367 30.717C16.885 29.8053 15.1151 29.8053 13.7633 30.717L3.11834 37.8968C1.78998 38.7927 0 37.8409 0 36.2387Z"/>
-                        </mask>
-                        <path d="M0 36.2387V8C0 3.58172 3.58172 0 8 0H24C28.4183 0 32 3.58172 32 8V36.2387C32 37.8409 30.21 38.7927 28.8817 37.8968L18.2367 30.717C16.885 29.8053 15.1151 29.8053 13.7633 30.717L3.11834 37.8968C1.78998 38.7927 0 37.8409 0 36.2387Z" fill="#2B3039" stroke="#1B1C1F" stroke-width="8" mask="url(#path-1-inside-1_4_11)"/>
-                    </g>
-                </svg>
-            </button>
+            <BookmarkButton/>
         </div>
         
         <div class="decoration-frame">
@@ -88,12 +84,15 @@ on:mousemove={(e) => {
     <div class="background">
         <Canvas>
             <BackgroundLayout 
-            bind:mousePosition={mousePosition}
-            />
+                bind:mousePosition={mousePosition}
+                />
         </Canvas>
     </div>
 
-    <PointerTrailer bind:mousePosition={mousePosition}/>
+    <PointerTrailer 
+        bind:mousePosition={mousePosition}
+        />
+
 </main>
 
 <style>
@@ -264,21 +263,6 @@ on:mousemove={(e) => {
         font-style:normal;
         font-weight: 600;
         color: #F5F5F5;
-    }
-
-    .bookmark{
-        position: absolute;
-        
-        appearance: none;
-        border: none;
-        background: none;
-    }
-
-    .bookmark svg {
-        position: relative;
-        margin: 0 0.5em;
-        
-        top: 3.75em;
     }
     
 </style>
