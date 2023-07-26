@@ -6,7 +6,7 @@
     import vertexShader from './Shaders/vertex.glsl'
     import { spring } from 'svelte/motion';
 
-    export let mousePosition = new Vector2();
+    export let mousePosition = new Vector2(0.0, 1.0);
     let mouseUV = spring(mousePosition,{
         stiffness: 0.01,
         damping: 0.2,
@@ -23,16 +23,15 @@
         vertexShader,
         fragmentShader
     });
-
     
     useFrame(({ clock }) => {
         uniforms.uTime.value = clock.getElapsedTime();
         mouseUV.set(new Vector2(
-            1.0 - ((mousePosition.x * 0.6) / window.innerWidth),
-            1.0 - ((mousePosition.y * 0.8) / window.innerHeight)
-            ));
-        })
-        
+            Math.min(1.0, 1.0 - ((mousePosition.x * 0.6) / window.innerWidth)),
+            Math.min(1.0, 1.0 - ((mousePosition.y * 0.8) / window.innerHeight))
+        ));
+    })
+    
     $: uniforms.uMouseUV.value = $mouseUV;
     
 </script>

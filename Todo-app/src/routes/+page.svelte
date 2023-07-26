@@ -3,17 +3,14 @@
 
     import BackgroundLayout from '../lib/Background/BackgroundLayout.svelte';
     import ContainerDecoration from "../lib/ContainDecoration/ContainerDecoration.svelte";
-    import Entry from "../lib/Entry.svelte";
-    import PointerTrailer from "../lib/PointerTrailer.svelte";
+    import Entry from "../lib/PageComponents/Entry.svelte";
+    import PointerTrailer from "../lib/PageComponents/PointerTrailer.svelte";
 
     let todos = [{task : "Sharpen spear.", id : 0, completed: false}]
     let newTask = 'New Task?'
 
     let mousePosition = {x: 0, y: 0}
     let taskInput;
-
-    let accentColor;
-    let primaryColor;
 
     $: if ((newTask.length > -1) && taskInput){
         taskInput.style.height = "1.5rem";
@@ -34,13 +31,16 @@
 
 </script>
 
-<main class="page" 
-on:mousemove={(e) => {mousePosition.x = e.clientX; mousePosition.y = e.clientY;}}>
+<main class="page"
+
+on:mousemove={(e) => {
+    mousePosition.x = Math.max(0.0, e.clientX); 
+    mousePosition.y = Math.max(0.0, e.clientY);
+}}>
     
     <div class="content-wrapper">
         <div class="todo-list">
             <div class="entries-wrapper">
-                
                 {#each todos as entry (entry.id)}
                 <Entry id={entry.id} 
                 bind:task={entry.task}
@@ -152,8 +152,8 @@ on:mousemove={(e) => {mousePosition.x = e.clientX; mousePosition.y = e.clientY;}
         padding: 0.25em;
 
         border-radius: 1.5em;
-        background-color: #1B1C1F;
-        box-shadow: 5px 5px 5px -2px rgba(20, 20, 20, 0.187);
+        background-color: #12161F;
+        box-shadow: 5px 5px 10px -2px rgba(20, 20, 20, 0.345);
 
     }
 
@@ -167,7 +167,7 @@ on:mousemove={(e) => {mousePosition.x = e.clientX; mousePosition.y = e.clientY;}
         left: -0.75em;
         
         border-radius: 0.25em;
-        background-color: #1B1C1F;
+        background-color: #12161F;
     }
 
     .decoration-frame{
@@ -184,7 +184,6 @@ on:mousemove={(e) => {mousePosition.x = e.clientX; mousePosition.y = e.clientY;}
         align-self: end;
         
         border-radius: 1.5em;
-        background: linear-gradient(178deg, #E04834 -100%, #1B1C1F 50%);
         z-index: 0;
 
         overflow: hidden;
@@ -210,7 +209,7 @@ on:mousemove={(e) => {mousePosition.x = e.clientX; mousePosition.y = e.clientY;}
         
         padding: 0.25em;
         border-radius: 1.75em;
-        background-color: #1B1C1F;
+        background-color: #12161F;
     }
     
     .entries-wrapper{
@@ -235,26 +234,27 @@ on:mousemove={(e) => {mousePosition.x = e.clientX; mousePosition.y = e.clientY;}
         border-style: none;
         resize: none;
         
-        border-radius: 0.25em 0.25em 1.25em 1.25em;
+        border-radius: 0.25em 0.25em 1.5em 1.5em;
         
-        font-size: 1.2rem;
-        font-weight: 500;
+        font-size: 1rem;
+        font-weight: 400;
         font-style: italic;
         
         height: 1.5rem;
-        color: #fef5ec;
+        color: #ACACAF;
         
         width: calc(100% - 1em);
         padding: 0.25em 0.5em;
         
-        background-color: #2B3039;
+        background-color: #191C24;
         z-index: 1;
 
-        caret-color: #fef5ec;
+        caret-color: #6961C2;
     }
 
     .entry-input::selection{
-        background-color: #1B1C1F;
+        background-color: #6961C2;
+        color: #FFE4D6;
     }
     
     .entry-input:focus-visible {
@@ -263,7 +263,7 @@ on:mousemove={(e) => {mousePosition.x = e.clientX; mousePosition.y = e.clientY;}
         
         font-style:normal;
         font-weight: 600;
-        color: #F4EFE0;
+        color: #F5F5F5;
     }
 
     .bookmark{

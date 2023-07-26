@@ -5,7 +5,6 @@
     let newTask = task
 
     let textArea;
-
     $: if ((newTask.length > -1) && textArea){
         textArea.style.height = "1.75rem";
         textArea.style.height = textArea.scrollHeight + "px";
@@ -73,10 +72,10 @@
         font-size: 0.6rem;
         font-weight: 600;
 
-        color: #F4EFE0;
+        color: #ACACAF;
         padding: 0.25rem 0.5rem;
 
-        background-color: #1B1C1F;
+        background-color: #12161F;
         border-radius: 0.6rem;
     }
 
@@ -90,21 +89,21 @@
 
         margin: 0;
 
-        border: solid #1B1C1F;
+        border: solid #12161F;
         border-width: 0.25rem;
         
-        background-color: #E14834;
+        background-color: #2C2F3A;
     }
 
     .entry-wrapper{
         gap: 0.25em;
 
-        padding: 0.5em;
+        padding: 0.5em; 
         min-width: calc(100% - 3.75em);
         align-items: flex-end;
 
         border-radius: 0.25em 0.25em 1.2em 1.2em;
-        background-color: #E14834;
+        background-color: #2C2F3A;
     }
 
     .entry-edit {
@@ -120,12 +119,12 @@
         font-weight: 700;
 
         border: none;
-        color: #1B1C1F;
+        color: #F5F5F5;
         background: none;
     }
 
     .entry-edit::selection{
-        background-color: #F4EFE0;
+        background-color: #B8A3A3;
         color: #2B3039;
     }
 

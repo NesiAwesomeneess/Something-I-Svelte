@@ -7,11 +7,11 @@ struct ColorStop {
 };
 
 ColorStop[5] palette = ColorStop[](
-    ColorStop(vec3(0.11, 0.11, 0.12), 0.0),
-    ColorStop(vec3(0.11, 0.11, 0.12), 0.3),
-    ColorStop(vec3(0.34, 0.23, 0.68), 0.6),
-    ColorStop(vec3(0.43, 0.56, 0.92), 0.8),
-    ColorStop(vec3(0.96, 0.94, 0.88), 1.0)
+    ColorStop(vec3(0.071,0.086,0.122), 0.0),
+    ColorStop(vec3(0.098,0.11,0.141), 0.1),
+    ColorStop(vec3(0.412,0.38,0.761), 0.55),
+    ColorStop(vec3(1.,0.894,0.839), 0.9),
+    ColorStop(vec3(0.949,0.922,0.918), 1.0)
 );
 
 #define ColorRamp(colors, factor, finalColor) { \

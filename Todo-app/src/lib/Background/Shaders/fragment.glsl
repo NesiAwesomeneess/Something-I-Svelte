@@ -20,11 +20,11 @@ struct ColorStop {
 };
 
 ColorStop[5] palette = ColorStop[](
-    ColorStop(vec3(0.11, 0.11, 0.12), 0.0),
-    ColorStop(vec3(0.17, 0.19, 0.22), 0.1),
-    ColorStop(vec3(0.34, 0.23, 0.68), 0.15),
-    ColorStop(vec3(0.43, 0.56, 0.92), 0.35),
-    ColorStop(vec3(0.96, 0.94, 0.88), 0.5)
+    ColorStop(vec3(0.071,0.086,0.122), 0.0),
+    ColorStop(vec3(0.173,0.184,0.227), 0.1),
+    ColorStop(vec3(0.412,0.38,0.761), 0.25),
+    ColorStop(vec3(1.,0.894,0.839), 0.45),
+    ColorStop(vec3(0.949,0.922,0.918), 0.5)
 );
 
 #define ColorRamp(colors, factor, finalColor) { \
@@ -105,7 +105,8 @@ void main(){
     //offset it goes from (1.0 to 0.0) to (-0.5 to 0.5) now it goes from
     //0.5 to 0.0 to 0.5.
     float valueInverted = smoothstep(0.0, 
-    1.0, pow(1.0 - abs(uvRepeatValue - 0.5), 2.4)) * ( 0.7 + (min(0.3, uMouseUV.x) - (uMouseUV.y * 0.8))) ;
+    1.0, pow(1.0 - abs(uvRepeatValue - 0.5), 2.4)) 
+    * ( 0.7 + (min(0.2, uMouseUV.x) - max(0.35, uMouseUV.y * 0.7))) ;
 
     //CIRCLE MASK
     vec2 circleUV = vUv - vec2(0.5);
