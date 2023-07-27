@@ -9,7 +9,9 @@
     import BookmarkButton from '../lib/PageComponents/BookmarkButton.svelte';
 
     let todos = [{task : "Sharpen spear.", id : 0, completed: false}]
+    
     let newTask = ''
+    let placeHolder = 'New Task?'
 
     let mousePosition = {x: 0, y: 0}
     let taskInput;
@@ -66,20 +68,22 @@ on:mousemove={(e) => {
             </div>
             
             <textarea 
-                placeholder="New Task?"
+                placeholder={placeHolder}
                 class="entry-input context"
                 bind:this={taskInput}
                 bind:value={newTask}
                 
                 on:focus={() => {
-                    newTask=""; 
+                    newTask="";
                     pointerDisabled = true;
+                    placeHolder=''
                 }}
 
                 on:blur={() => {
                     addTodo();
                     pointerDisabled = false;
                     taskInput.style.height = "1.5rem";
+                    placeHolder='New Task?'
                 }}
                 
                 on:keydown={(event) => {
