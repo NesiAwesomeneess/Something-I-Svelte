@@ -27,12 +27,15 @@
     useFrame(({ clock }) => {
         uniforms.uTime.value = clock.getElapsedTime();
         mouseUV.set(new Vector2(
-            Math.min(1.0, 1.0 - ((mousePosition.x * 0.6) / window.innerWidth)),
-            Math.min(1.0, 1.0 - ((mousePosition.y * 0.8) / window.innerHeight))
+            1.0 - ((mousePosition.x * 0.6) / window.innerWidth),
+            1.0 - ((mousePosition.y * 0.8) / window.innerHeight)
         ));
+
+        uniforms.uMouseUV.value = new Vector2(
+            Math.max(0.0, Math.min(1.0, $mouseUV.x)), 
+            Math.max(0.0, Math.min(1.0, $mouseUV.y))
+        );
     })
-    
-    $: uniforms.uMouseUV.value = $mouseUV;
     
 </script>
 

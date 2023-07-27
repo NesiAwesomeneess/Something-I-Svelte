@@ -4,7 +4,7 @@
 </script>
 
 
-<div class="bookmark">
+<div class="bookmark context">
     <button 
     on:mouseenter={(e) => {animationInputs[0].value = true}}
     on:mouseleave={(e) => {animationInputs[0].value = false}}

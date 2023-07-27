@@ -23,7 +23,7 @@
 
 <!-- this is a list entry essentially -->
 <div class="entry">
-    <input type="checkbox" class="checkbox" bind:checked={completed}/>
+    <input type="checkbox" class="checkbox context" bind:checked={completed}/>
 
     <div class="entry-wrapper">
         {#if completed}
@@ -31,7 +31,7 @@
                 {task}
             </span>
         {:else}
-            <textarea class="entry-edit"
+            <textarea class="entry-edit context"
             bind:this={textArea}
             bind:value={newTask}
             on:focus={textArea.select()}

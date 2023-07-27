@@ -31,11 +31,21 @@
     //     todos = todos.filter(({completed}) => {return !(completed)});
     // }
 
+    let currentContext = "null";
+
 </script>
 
 <main class="page"
 
 on:mousemove={(e) => {
+    const onContext = e.target.closest(".context") !== null;
+    if (onContext){
+        currentContext = e.target.closest(".context").classList[0];
+    }
+    else{
+        currentContext = "null";
+    }
+    
     mousePosition.x = Math.max(0.0, e.clientX); 
     mousePosition.y = Math.max(0.0, e.clientY);
 }}>
@@ -52,7 +62,7 @@ on:mousemove={(e) => {
             
             <textarea 
 
-                class="entry-input"
+                class="entry-input context"
                 bind:this={taskInput}
                 bind:value={newTask}
                 
@@ -91,6 +101,7 @@ on:mousemove={(e) => {
 
     <PointerTrailer 
         bind:mousePosition={mousePosition}
+        bind:currentContext={currentContext}
         />
 
 </main>

@@ -1,5 +1,5 @@
 <script>
-    import {Alignment, Fit, Layout, Rive} from '@rive-app/canvas'
+    import { Alignment, Fit, Layout, Rive } from '@rive-app/canvas'
     import { onMount } from 'svelte';
 
     export let src;
@@ -8,6 +8,7 @@
     export let stateMachines;
     export let riveInstance;
     export let riveInputs;
+    export let canvasNumber = 0;
 
     onMount(() =>{
         riveInstance = new Rive({
@@ -19,7 +20,7 @@
                 alignment: Alignment.Center
             }),
             stateMachines,
-            canvas : document.getElementById("canvas"),
+            canvas : document.getElementById("canvas" + canvasNumber),
             onLoad: () => {
                 riveInstance.resizeDrawingSurfaceToCanvas();
                 riveInputs = riveInstance.stateMachineInputs(stateMachines);
@@ -30,11 +31,5 @@
     
 </script>
 
-<canvas id="canvas"/>
+<canvas id="canvas{canvasNumber}" style="width: 100%; height: 100%;"/>
 
-<style>
-    #canvas{
-        width: 100%;
-        height: 100%;
-    }
-</style>
