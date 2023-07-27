@@ -1,27 +1,48 @@
 <script>
-    import { spring } from 'svelte/motion';
+    import { spring, tweened } from 'svelte/motion';
     import RiveComponent from '../RiveComponent.svelte';
     
     let coords = spring({x: 0, y: 0}, {
         stiffness: 0.02,
         damping: 0.2
     });
+
     export let mousePosition = {x: 0, y: 0}
     $: {
         coords.set({x: mousePosition.x, y: mousePosition.y});
         checkContext();
     }
+
+    $: if (disabled) {
+        checkContext();
+    }
+
+    export let disabled = false;
     
     let size = spring(24, {
         stiffness: 0.02,
         damping: 0.2
     });
 
+    let opacity = spring(100, {
+        stiffness: 0.05,
+        damping: 0.2,
+    })
+
 
     export let currentContext = "null";
     let animationInputs;
 
     function checkContext(){
+        if (disabled){
+            opacity.set(0);
+            size.set(24);
+            animationInputs[0].fire()
+            return
+        } else {
+            opacity.set(100);
+        }
+
         if (animationInputs){
             if (currentContext === "null"){
                 animationInputs[0].fire()
@@ -29,7 +50,7 @@
             }
             else{
                 size.set(42);
-                
+
                 switch (currentContext){
                     case "entry-input":
                         animationInputs[1].fire()
@@ -55,7 +76,8 @@
 <div id="trail-outline" 
     style="width: {$size + 8}px; height : {$size + 8}px;
     left: {$coords.x + ($size / 2)}px; 
-    top: {$coords.y - ($size) - 10}px;">
+    top: {$coords.y - ($size) - 10}px;
+    opacity: {$opacity}%">
     
     <div id="mouse-trail" 
         style="
@@ -72,7 +94,8 @@
         left: calc(50% - 1px);
         transform: translateX(-50%) translateY(-50%);
         width: 30px; 
-        height: 30px;">
+        height: 30px;
+        overflow: hidden;">
 
             <RiveComponent
                 src='/icons.riv' 

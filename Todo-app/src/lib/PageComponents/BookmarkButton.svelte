@@ -39,5 +39,7 @@
         background: none;
         width: 32px;
         height: 56px;
+
+        cursor: pointer;
     }
 </style>

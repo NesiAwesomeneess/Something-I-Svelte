@@ -9,22 +9,25 @@
     import BookmarkButton from '../lib/PageComponents/BookmarkButton.svelte';
 
     let todos = [{task : "Sharpen spear.", id : 0, completed: false}]
-    let newTask = 'New Task?'
+    let newTask = ''
 
     let mousePosition = {x: 0, y: 0}
     let taskInput;
 
-    $: if ((newTask.length > -1) && taskInput){
-        taskInput.style.height = "1.5rem";
-        taskInput.style.height = taskInput.scrollHeight - 8 + "px";
+    $: if ((newTask.length > 0) && taskInput){
+        resize()
     }
 
     function addTodo(){
         if (newTask){
             todos = [...todos, {task: newTask, id : crypto.randomUUID()}]
         }
+        newTask = ''
+    }
 
-        newTask = "New Task?"
+    function resize(){
+        taskInput.style.height = "1.5rem";
+        taskInput.style.height = taskInput.scrollHeight - 8 + "px";
     }
 
     // function taskCompleted(){
@@ -32,6 +35,7 @@
     // }
 
     let currentContext = "null";
+    let pointerDisabled = false;
 
 </script>
 
@@ -54,20 +58,29 @@ on:mousemove={(e) => {
         <div class="todo-list">
             <div class="entries-wrapper">
                 {#each todos as entry (entry.id)}
-                <Entry id={entry.id} 
-                bind:task={entry.task}
-                bind:completed={entry.completed}/>
+                <Entry id={entry.id}
+                    bind:task={entry.task}
+                    bind:completed={entry.completed}
+                    bind:disablePointer={pointerDisabled}/>
                 {/each}
             </div>
             
             <textarea 
-
+                placeholder="New Task?"
                 class="entry-input context"
                 bind:this={taskInput}
                 bind:value={newTask}
                 
-                on:focus={() => newTask=""}
-                on:blur={() => addTodo()}
+                on:focus={() => {
+                    newTask=""; 
+                    pointerDisabled = true;
+                }}
+
+                on:blur={() => {
+                    addTodo();
+                    pointerDisabled = false;
+                    taskInput.style.height = "1.5rem";
+                }}
                 
                 on:keydown={(event) => {
                     if (event.key === "Enter"){
@@ -102,6 +115,7 @@ on:mousemove={(e) => {
     <PointerTrailer 
         bind:mousePosition={mousePosition}
         bind:currentContext={currentContext}
+        bind:disabled={pointerDisabled}
         />
 
 </main>
@@ -258,11 +272,11 @@ on:mousemove={(e) => {
         
         background-color: #191C24;
         z-index: 1;
-
-        caret-color: #6961C2;
+        cursor: pointer;
     }
-
+    
     .entry-input::selection{
+        caret-color: #6961C2;
         background-color: #6961C2;
         color: #FFE4D6;
     }

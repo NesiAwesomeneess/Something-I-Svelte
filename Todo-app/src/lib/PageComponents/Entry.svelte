@@ -5,7 +5,7 @@
     let newTask = task
 
     let textArea;
-    $: if ((newTask.length > -1) && textArea){
+    $: if ((newTask.length > 0) && textArea){
         textArea.style.height = "1.75rem";
         textArea.style.height = textArea.scrollHeight + "px";
     }
@@ -18,6 +18,8 @@
         newTask = task
         id = id
     }
+
+    export let disablePointer = false;
 
 </script>
 
@@ -34,8 +36,14 @@
             <textarea class="entry-edit context"
             bind:this={textArea}
             bind:value={newTask}
-            on:focus={textArea.select()}
-            on:blur={() => finishedEdit()}
+            on:focus={() => {
+                textArea.select(); 
+                disablePointer = true;
+            }}
+            on:blur={() => {
+                finishedEdit()
+                disablePointer = false;
+            }}
 
             on:keydown={(event) => {
                 if (event.key === "Enter"){textArea.blur()
@@ -77,6 +85,7 @@
 
         background-color: #12161F;
         border-radius: 0.6rem;
+        cursor: default;
     }
 
     .checkbox[type="checkbox"] {
@@ -93,6 +102,7 @@
         border-width: 0.25rem;
         
         background-color: #2C2F3A;
+        cursor: pointer;
     }
 
     .entry-wrapper{
@@ -113,7 +123,7 @@
 
         width: 100%;
         
-        font-size: 1.25rem;
+        font-size: 1.125rem;
         line-height: 1.15em;
         height: 1.75rem;
         font-weight: 700;
