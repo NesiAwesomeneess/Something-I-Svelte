@@ -1,18 +1,21 @@
 <script>
     import RiveComponent from "../RiveComponent.svelte";
-    let animationsInputs;
-
+    let animationInputs;
 </script>
 
 
 <div class="bookmark">
-    <button>
+    <button 
+    on:mouseenter={(e) => {animationInputs[0].value = true}}
+    on:mouseleave={(e) => {animationInputs[0].value = false}}
+    on:click={(e) => {animationInputs[1].fire()}}
+    >
         <RiveComponent
             src='/bookmark.riv' 
-            autoplay={false}
+            autoplay={true}
             artboard='BookMark'
-            stateMachines='State Machine 1'
-            bind:stateMachineInputs={animationsInputs}
+            stateMachines={'State Machine 1'}
+            bind:riveInputs={animationInputs}
             />
     </button>
 </div>
@@ -34,7 +37,7 @@
         appearance: none;
         border: none;
         background: none;
-        width: 36px;
-        height: 64px;
+        width: 32px;
+        height: 56px;
     }
 </style>

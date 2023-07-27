@@ -13,22 +13,26 @@
 
 </script>
 
-<div id="mouse-trail" style="width: {size + 8}px; height : {size + 8}px;
-left: {$coords.x + (size / 2)}px; 
-top: {$coords.y - (size)}px;">
-
-<div id="trail-outline" style="width:{size}px; height : {size}px;
-left: {4}px; 
-top: {4}px;">
-
-</div></div>
+<div id="mouse-trail" 
+    style="width: {size + 8}px; height : {size + 8}px;
+    left: {$coords.x + (size / 2)}px; 
+    top: {$coords.y - (size)}px;">
+    
+    <div id="trail-outline" 
+        style="
+        width : {size}px; 
+        height : {size}px;
+        left: {4}px;
+        top: {4}px;">
+    </div>
+</div>
 
 <style>
     #mouse-trail {
         position: fixed;
         z-index: 200;
 
-        background-color: #1B1C1F;
+        background-color: #12161F;
         border-radius: 50%;
         
         pointer-events: none;
@@ -37,7 +41,7 @@ top: {4}px;">
     
     #trail-outline {
         position: absolute;
-        z-index: -1;
+        z-index: -2;
         
         border-radius: 50%;
         background-color: #FFAF85;

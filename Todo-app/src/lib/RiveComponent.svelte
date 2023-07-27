@@ -7,6 +7,7 @@
     export let artboard;
     export let stateMachines;
     export let riveInstance;
+    export let riveInputs;
 
     onMount(() =>{
         riveInstance = new Rive({
@@ -21,6 +22,7 @@
             canvas : document.getElementById("canvas"),
             onLoad: () => {
                 riveInstance.resizeDrawingSurfaceToCanvas();
+                riveInputs = riveInstance.stateMachineInputs(stateMachines);
             }
         })
     })
