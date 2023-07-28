@@ -72,18 +72,15 @@
 
 <div id="mouse-trail" 
     style="
+    display: grid;
     width : {$size}px; 
     height : {$size}px;
     left: {$coords.x + ($size / 2)}px;
     top: {$coords.y - ($size) - 10}px;
-    opacity: {$opacity}%">
+    opacity: {$opacity}%
+    ">
 
     <div style="
-    position: absolute;
-    padding: 0;
-    top: 50%;
-    left: calc(50% - 1px);
-    transform: translateX(-50%) translateY(-50%);
     width: 30px; 
     height: 30px;
     overflow: hidden;">
@@ -120,10 +117,14 @@
     
     #mouse-trail {
         position: fixed;
+        place-content: center;
         z-index: 20;
         
         border-radius: 50%;
-        background-color: #FFAF85;
+
+        background: #acacaf34;
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
         box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.128);
     }
 

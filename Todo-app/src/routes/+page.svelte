@@ -11,7 +11,7 @@
     let todos = [{task : "Sharpen spear.", id : 0, completed: false}]
     
     let newTask = ''
-    let placeHolder = 'New Task?'
+    let placeHolder = 'New Task'
 
     let mousePosition = {x: 0, y: 0}
     let taskInput;
@@ -28,8 +28,8 @@
     }
 
     function resize(){
-        taskInput.style.height = "1.5rem";
-        taskInput.style.height = taskInput.scrollHeight - 8 + "px";
+        taskInput.style.height = "1.25rem";
+        taskInput.style.height = taskInput.scrollHeight - 24 + "px";
     }
 
     // function taskCompleted(){
@@ -82,8 +82,8 @@ on:mousemove={(e) => {
                 on:blur={() => {
                     addTodo();
                     pointerDisabled = false;
-                    taskInput.style.height = "1.5rem";
-                    placeHolder='New Task?'
+                    taskInput.style.height = "1.25rem";
+                    placeHolder='New Task'
                 }}
                 
                 on:keydown={(event) => {
@@ -236,7 +236,7 @@ on:mousemove={(e) => {
         height: 100%;
         
         padding: 0.25em;
-        border-radius: 1.75em;
+        border-radius: 1.75em 1.75em 1.5em 1.5em;
         background-color: #12161F;
     }
     
@@ -262,17 +262,17 @@ on:mousemove={(e) => {
         border-style: none;
         resize: none;
         
-        border-radius: 0.25em 0.25em 1.5em 1.5em;
+        border-radius: 0.25em 0.25em 1.25em 1.25em;
         
         font-size: 1rem;
         font-weight: 400;
         font-style: italic;
         
-        height: 1.5rem;
+        height: 1.25rem;
         color: #ACACAF;
         
-        width: calc(100% - 1em);
-        padding: 0.25em 0.5em;
+        width: calc(100% - 1.5em);
+        padding: 0.75em;
         
         background-color: #191C24;
         z-index: 1;

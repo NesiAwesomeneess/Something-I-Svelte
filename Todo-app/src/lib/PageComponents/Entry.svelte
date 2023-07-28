@@ -8,7 +8,7 @@
 
     let textArea;
     $: if ((newTask.length > 0) && textArea){
-        textArea.style.height = "1.75rem";
+        textArea.style.height = "1.5rem";
         textArea.style.height = textArea.scrollHeight + "px";
     }
 
@@ -54,7 +54,6 @@
             />
         {/if}
         
-        <br/>
         <span class="entry-date">{date}</span>
     </div>
 </div>
@@ -108,11 +107,13 @@
     }
 
     .entry-wrapper{
+        display: flex;
+        flex-direction: column;
         gap: 0.25em;
 
-        padding: 0.5em; 
-        min-width: calc(100% - 3.75em);
-        align-items: flex-end;
+        padding: 0.75em; 
+        width: calc(100% - 3.75em);
+        align-items: flex-start;
 
         border-radius: 0.25em 0.25em 1.2em 1.2em;
         background-color: #2C2F3A;
@@ -127,7 +128,7 @@
         
         font-size: 1.125rem;
         line-height: 1.15em;
-        height: 1.75rem;
+        height: 1.5rem;
         font-weight: 700;
 
         border: none;
