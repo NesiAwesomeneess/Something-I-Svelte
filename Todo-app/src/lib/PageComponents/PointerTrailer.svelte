@@ -75,7 +75,8 @@
     width : {$size}px; 
     height : {$size}px;
     left: {$coords.x + ($size / 2)}px;
-    top: {$coords.y - ($size) - 10}px;">
+    top: {$coords.y - ($size) - 10}px;
+    opacity: {$opacity}%">
 
     <div style="
     position: absolute;
@@ -123,7 +124,7 @@
         
         border-radius: 50%;
         background-color: #FFAF85;
-        box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.174);
+        box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.128);
     }
 
 </style>

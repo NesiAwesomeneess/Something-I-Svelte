@@ -4,6 +4,8 @@
     export let task = "new"
     let newTask = task
 
+    const date = new Date().toUTCString().slice(5, 16);;
+
     let textArea;
     $: if ((newTask.length > 0) && textArea){
         textArea.style.height = "1.75rem";
@@ -53,7 +55,7 @@
         {/if}
         
         <br/>
-        <span class="entry-date"> Mon 12 12 2012</span>
+        <span class="entry-date">{date}</span>
     </div>
 </div>
 
