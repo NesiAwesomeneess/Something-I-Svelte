@@ -20,7 +20,7 @@
                 alignment: Alignment.Center
             }),
             stateMachines,
-            canvas : document.getElementById("canvas" + canvasNumber),
+            canvas : document.getElementById(canvasNumber+""),
             onLoad: () => {
                 riveInstance.resizeDrawingSurfaceToCanvas();
                 riveInputs = riveInstance.stateMachineInputs(stateMachines);
@@ -31,5 +31,5 @@
     
 </script>
 
-<canvas id="canvas{canvasNumber}" style="width: 100%; height: 100%;"/>
+<canvas id="{canvasNumber}" style="width: 100%; height: 100%;"/>
 

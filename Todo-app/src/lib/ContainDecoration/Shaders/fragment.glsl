@@ -9,7 +9,7 @@ struct ColorStop {
 ColorStop[5] palette = ColorStop[](
     ColorStop(vec3(0.071,0.086,0.122), 0.0),
     ColorStop(vec3(0.098,0.11,0.141), 0.1),
-    ColorStop(vec3(0.412,0.38,0.761), 0.55),
+    ColorStop(vec3(0.45, 0.42, 0.8), 0.55),
     ColorStop(vec3(1.,0.894,0.839), 0.9),
     ColorStop(vec3(0.949,0.922,0.918), 1.0)
 );

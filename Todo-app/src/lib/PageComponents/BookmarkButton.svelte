@@ -1,14 +1,20 @@
 <script>
     import RiveComponent from "../RiveComponent.svelte";
+    import { context } from "./pointerStore";
     let animationInputs;
 </script>
 
 
-<div class="bookmark context">
+<div class="bookmark">
     <button
-    on:mouseenter={(e) => {animationInputs[0].value = true}}
-    on:mouseleave={(e) => {animationInputs[0].value = false}}
+    on:mouseenter={(e) => {
+        animationInputs[0].value = true
+        context.set("bookmark")}}
+    on:mouseleave={(e) => {
+        animationInputs[0].value = false
+        context.set("null")}}
     on:click={(e) => {animationInputs[1].fire()}}
+
     >
         <RiveComponent
             src='/bookmark.riv' 

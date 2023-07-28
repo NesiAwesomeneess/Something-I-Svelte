@@ -8,50 +8,44 @@
     import PointerTrailer from "../lib/PageComponents/PointerTrailer.svelte";
     import BookmarkButton from '../lib/PageComponents/BookmarkButton.svelte';
 
+    import { slide } from 'svelte/transition';
+    import { cubicOut } from 'svelte/easing';
+
+    
     let todos = [{task : "Sharpen spear.", id : 0, completed: false}]
     
     let newTask = ''
     let placeHolder = 'New Task'
-
+    
     let mousePosition = {x: 0, y: 0}
     let taskInput;
-
+    
     $: if ((newTask.length > 0) && taskInput){
         resize()
     }
-
+    
     function addTodo(){
         if (newTask){
             todos = [...todos, {task: newTask, id : crypto.randomUUID()}]
         }
         newTask = ''
     }
-
+    
     function resize(){
         taskInput.style.height = "1.25rem";
         taskInput.style.height = taskInput.scrollHeight - 24 + "px";
     }
-
+    
     // function taskCompleted(){
-    //     todos = todos.filter(({completed}) => {return !(completed)});
-    // }
-
-    let currentContext = "null";
-    let pointerDisabled = false;
-
+        //     todos = todos.filter(({completed}) => {return !(completed)});
+        // }
+        
+    import { context, pointerEnabled } from "../lib/PageComponents/pointerStore";
 </script>
 
 <main class="page"
 
 on:mousemove={(e) => {
-    const onContext = e.target.closest(".context") !== null;
-    if (onContext){
-        currentContext = e.target.closest(".context").classList[0];
-    }
-    else{
-        currentContext = "null";
-    }
-    
     mousePosition.x = Math.max(0.0, e.clientX); 
     mousePosition.y = Math.max(0.0, e.clientY);
 }}>
@@ -60,30 +54,35 @@ on:mousemove={(e) => {
         <div class="todo-list">
             <div class="entries-wrapper">
                 {#each todos as entry (entry.id)}
-                <Entry id={entry.id}
-                    bind:task={entry.task}
-                    bind:completed={entry.completed}
-                    bind:disablePointer={pointerDisabled}/>
+                <div transition:slide={{duration : 200, easing: cubicOut}} class="entry">
+                    <Entry id={entry.id}
+                        bind:task={entry.task}
+                        bind:completed={entry.completed}/>
+                </div>
                 {/each}
             </div>
             
             <textarea 
                 placeholder={placeHolder}
-                class="entry-input context"
+                class="entry-input"
                 bind:this={taskInput}
                 bind:value={newTask}
                 
+                on:mouseenter={() => context.set('add')}
+                on:mouseleave={() => context.set('null')}
+
                 on:focus={() => {
                     newTask="";
-                    pointerDisabled = true;
                     placeHolder=''
+                    pointerEnabled.set(false)
+                    console.log($context);
                 }}
 
                 on:blur={() => {
                     addTodo();
-                    pointerDisabled = false;
                     taskInput.style.height = "1.25rem";
                     placeHolder='New Task'
+                    pointerEnabled.set(true)
                 }}
                 
                 on:keydown={(event) => {
@@ -91,9 +90,7 @@ on:mousemove={(e) => {
                         event.target.blur();
                         return
                     }
-                }}
-
-            />
+                }} />
             
             <BookmarkButton/>
         </div>
@@ -118,8 +115,6 @@ on:mousemove={(e) => {
 
     <PointerTrailer 
         bind:mousePosition={mousePosition}
-        bind:currentContext={currentContext}
-        bind:disabled={pointerDisabled}
         />
 
 </main>
@@ -239,7 +234,7 @@ on:mousemove={(e) => {
         border-radius: 1.75em 1.75em 1.5em 1.5em;
         background-color: #12161F;
     }
-    
+
     .entries-wrapper{
         display: flex;
         flex-direction: column;
@@ -247,7 +242,7 @@ on:mousemove={(e) => {
         gap: 0.25em;
         
         height: 100%;
-        width: calc(100% + 2.75em);
+        width: calc(100% + 2.825em);
         
         align-self: end;
         justify-content: end;
@@ -256,6 +251,16 @@ on:mousemove={(e) => {
         border-radius: 1.25em;
         overflow: hidden;
         z-index: 1;
+    }
+
+    .entry {
+        display: flex;
+        flex-direction: row;
+
+        align-self: end;
+
+        gap: 0.5rem;
+        width: 100%;
     }
     
     .entry-input {

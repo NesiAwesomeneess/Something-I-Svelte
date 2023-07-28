@@ -21,41 +21,51 @@
         id = id
     }
 
-    export let disablePointer = false;
+    import {context, pointerEnabled} from './pointerStore'
 
 </script>
 
 <!-- this is a list entry essentially -->
-<div class="entry">
-    <input type="checkbox" class="checkbox context" bind:checked={completed}/>
+<input type="checkbox" 
+    class:completed={completed}
+    class="checkbox" 
+    bind:checked={completed}
 
-    <div class="entry-wrapper">
-        {#if completed}
-            <span class="completed-task">
-                {task}
-            </span>
-        {:else}
-            <textarea class="entry-edit context"
-            bind:this={textArea}
-            bind:value={newTask}
-            on:focus={() => {
-                textArea.select(); 
-                disablePointer = true;
-            }}
-            on:blur={() => {
-                finishedEdit()
-                disablePointer = false;
-            }}
+    on:click={() => context.set(completed ? "done" : "checked")}
+    on:mouseenter={() => {context.set(completed ? "checked" : 'done')}}
+    on:mouseleave={() => context.set('null')}
+    />
 
-            on:keydown={(event) => {
-                if (event.key === "Enter"){textArea.blur()
-            }}}
-            
-            />
-        {/if}
+<div class="entry-wrapper">
+    {#if completed}
+        <span class="entry-edit completed-task">
+            {task}
+        </span>
+    {:else}
+        <textarea class="entry-edit context"
+        bind:this={textArea}
+        bind:value={newTask}
+
+        on:mouseenter={() => context.set('edit')}
+        on:mouseleave={() => context.set('null')}
+
+        on:focus={() => {
+            textArea.select(); 
+            pointerEnabled.set(false)
+        }}
+        on:blur={() => {
+            finishedEdit()
+            pointerEnabled.set(true)
+        }}
+
+        on:keydown={(event) => {
+            if (event.key === "Enter"){textArea.blur()
+        }}}
         
-        <span class="entry-date">{date}</span>
-    </div>
+        />
+    {/if}
+    
+    <span class="entry-date">{date}</span>
 </div>
 
 <style>
@@ -65,16 +75,6 @@
         padding: 0;
 
         font-family: 'Montserrat';
-    }
-
-    .entry {
-        display: flex;
-        flex-direction: row;
-
-        align-self: end;
-
-        gap: 0.5rem;
-        width: 100%;
     }
 
     .entry-date{
@@ -92,8 +92,8 @@
     .checkbox[type="checkbox"] {
         appearance: none;
 
-        min-width: 2.25rem;
-        height: 2.125rem;
+        min-width: 2.375rem;
+        height: 2.25rem;
 
         border-radius: 1.25rem 0.5rem 1.25rem 1.25rem;
 
@@ -102,8 +102,12 @@
         border: solid #12161F;
         border-width: 0.25rem;
         
-        background-color: #2C2F3A;
+        background-color: #6961C2;
         cursor: pointer;
+    }
+
+    .checkbox[type="checkbox"].completed{
+        background-color: #2C2F3A;
     }
 
     .entry-wrapper{
@@ -120,7 +124,6 @@
     }
 
     .entry-edit {
-        position: relative;
         text-align: left;
         resize: none;
 
@@ -147,7 +150,9 @@
     }
 
     .completed-task {
-        background-color: gray;
+        text-decoration: line-through;
+        text-decoration-thickness: 2px;
+        color: #ACACAF;
     }
 
 </style>

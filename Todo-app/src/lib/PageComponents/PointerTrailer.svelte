@@ -1,5 +1,6 @@
 <script>
-    import { spring, tweened } from 'svelte/motion';
+    import { context, pointerEnabled } from './pointerStore'
+    import { spring } from 'svelte/motion';
     import RiveComponent from '../RiveComponent.svelte';
     
     let coords = spring({x: 0, y: 0}, {
@@ -7,67 +8,64 @@
         damping: 0.2
     });
 
+    let animationInputs;
+
     export let mousePosition = {x: 0, y: 0}
     $: {
         coords.set({x: mousePosition.x, y: mousePosition.y});
-        checkContext();
+        checkContext($context, $pointerEnabled)
     }
 
-    $: if (disabled) {
-        checkContext();
-    }
-
-    export let disabled = false;
-    
     let size = spring(24, {
         stiffness: 0.02,
         damping: 0.2
     });
-
+    
     let opacity = spring(100, {
         stiffness: 0.05,
         damping: 0.2,
     })
 
+    $: checkContext(context , pointerEnabled)
 
-    export let currentContext = "null";
-    let animationInputs;
+    function checkContext(value, enabled){
+        if (!animationInputs){
+            return
+        }
 
-    function checkContext(){
-        if (disabled){
+        if (!enabled){
+            animationInputs[0].fire()
             opacity.set(0);
             size.set(24);
-            animationInputs[0].fire()
             return
-        } else {
-            opacity.set(100);
         }
 
-        if (animationInputs){
-            if (currentContext === "null"){
+        opacity.set(100);
+        size.set(42);
+
+        switch (value){
+            case "null":
                 animationInputs[0].fire()
                 size.set(24);
-            }
-            else{
-                size.set(42);
-
-                switch (currentContext){
-                    case "entry-input":
-                        animationInputs[1].fire()
-                        break;
-                    case "checkbox":
-                        animationInputs[2].fire()
-                        break;
-                    case "entry-edit":
-                        animationInputs[3].fire()
-                        break;
-                    case "bookmark":
-                        animationInputs[4].fire()
-                        break;
-                }
-            }
+                break;
+            case "add":
+                animationInputs[1].fire()
+                break;
+            case "done":
+                animationInputs[2].fire()
+                break;
+            case "edit":
+                animationInputs[3].fire()
+                break;
+            case "bookmark":
+                animationInputs[4].fire()
+                break;
+            case "checked":
+                animationInputs[5].fire()
+                break;
         }
     }
+
 </script>
 
 <div id="mouse-trail" 
