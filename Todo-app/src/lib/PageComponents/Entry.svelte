@@ -1,4 +1,6 @@
 <script>
+  import { fade } from 'svelte/transition';
+
     export let completed = false
     export let id;
     export let task = "new"
@@ -38,11 +40,10 @@
 
 <div class="entry-wrapper">
     {#if completed}
-        <span class="entry-edit completed-task">
-            {task}
-        </span>
+        <p class="entry-edit completed-task">{task}</p>
     {:else}
-        <textarea class="entry-edit context"
+        <textarea
+        class="entry-edit"
         bind:this={textArea}
         bind:value={newTask}
 
@@ -87,6 +88,7 @@
         background-color: #12161F;
         border-radius: 0.6rem;
         cursor: default;
+        user-select: none;
     }
 
     .checkbox[type="checkbox"] {
@@ -116,7 +118,7 @@
         gap: 0.25em;
 
         padding: 0.75em; 
-        width: calc(100% - 3.75em);
+        width: calc(100% - 4.25em);
         align-items: flex-start;
 
         border-radius: 0.25em 0.25em 1.2em 1.2em;
@@ -131,7 +133,7 @@
         
         font-size: 1.125rem;
         line-height: 1.15em;
-        height: 1.5rem;
+        height: 1.5em;
         font-weight: 700;
 
         border: none;
@@ -153,6 +155,9 @@
         text-decoration: line-through;
         text-decoration-thickness: 2px;
         color: #ACACAF;
+
+        word-wrap: break-word;
+        height: auto;
     }
 
 </style>

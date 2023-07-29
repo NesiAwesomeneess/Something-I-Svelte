@@ -37,7 +37,7 @@
         position: relative;
 
         top: 8px;
-        left: 8px;
+        left: 12px;
         padding: 0;
 
         appearance: none;

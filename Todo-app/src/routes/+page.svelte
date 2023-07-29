@@ -17,7 +17,6 @@
     let newTask = ''
     let placeHolder = 'New Task'
     
-    let mousePosition = {x: 0, y: 0}
     let taskInput;
     
     $: if ((newTask.length > 0) && taskInput){
@@ -43,13 +42,7 @@
     import { context, pointerEnabled } from "../lib/PageComponents/pointerStore";
 </script>
 
-<main class="page"
-
-on:mousemove={(e) => {
-    mousePosition.x = Math.max(0.0, e.clientX); 
-    mousePosition.y = Math.max(0.0, e.clientY);
-}}>
-    
+<main class="page">
     <div class="content-wrapper">
         <div class="todo-list">
             <div class="entries-wrapper">
@@ -75,7 +68,6 @@ on:mousemove={(e) => {
                     newTask="";
                     placeHolder=''
                     pointerEnabled.set(false)
-                    console.log($context);
                 }}
 
                 on:blur={() => {
@@ -107,15 +99,11 @@ on:mousemove={(e) => {
     
     <div class="background">
         <Canvas>
-            <BackgroundLayout 
-                bind:mousePosition={mousePosition}
-                />
+            <BackgroundLayout/>
         </Canvas>
     </div>
 
-    <PointerTrailer 
-        bind:mousePosition={mousePosition}
-        />
+    <PointerTrailer/>
 
 </main>
 
@@ -242,7 +230,7 @@ on:mousemove={(e) => {
         gap: 0.25em;
         
         height: 100%;
-        width: calc(100% + 2.825em);
+        width: calc(100% + 2.875em);
         
         align-self: end;
         justify-content: end;

@@ -1,20 +1,25 @@
 <script>
-    import { context, pointerEnabled } from './pointerStore'
+    import { context, pointerEnabled, pointerPosition } from './pointerStore'
     import { spring } from 'svelte/motion';
     import RiveComponent from '../RiveComponent.svelte';
+    import { onMount } from 'svelte';
     
     let coords = spring({x: 0, y: 0}, {
         stiffness: 0.02,
         damping: 0.2
     });
+    
+    onMount(() => {
+        window.onmousemove = (e) => {
+            pointerPosition.set({x: e.clientX, y: e.clientY});
+            coords.set({x: e.clientX, y: e.clientY});
+            checkContext($context, $pointerEnabled);
+        }
+    })
+
+    $: checkContext($context, $pointerEnabled)
 
     let animationInputs;
-
-    export let mousePosition = {x: 0, y: 0}
-    $: {
-        coords.set({x: mousePosition.x, y: mousePosition.y});
-        checkContext($context, $pointerEnabled)
-    }
 
     let size = spring(24, {
         stiffness: 0.02,
@@ -26,7 +31,10 @@
         damping: 0.2,
     })
 
-    $: checkContext(context , pointerEnabled)
+    let animationOpacity = spring(100, {
+        stiffness: 0.5,
+        damping: 0.2,
+    })
 
     function checkContext(value, enabled){
         if (!animationInputs){
@@ -41,12 +49,14 @@
         }
 
         opacity.set(100);
+        animationOpacity.set(100);
         size.set(42);
 
         switch (value){
             case "null":
                 animationInputs[0].fire()
                 size.set(24);
+                animationOpacity.set(0);
                 break;
             case "add":
                 animationInputs[1].fire()
@@ -75,13 +85,13 @@
     height : {$size}px;
     left: {$coords.x + ($size / 2)}px;
     top: {$coords.y - ($size) - 10}px;
-    opacity: {$opacity}%
-    ">
+    opacity: {$opacity}%">
 
     <div style="
     width: 30px; 
     height: 30px;
-    overflow: hidden;">
+    overflow: hidden;
+    opacity: {$animationOpacity}%">
 
         <RiveComponent
             src='/icons.riv' 

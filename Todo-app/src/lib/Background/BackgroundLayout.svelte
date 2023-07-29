@@ -6,8 +6,8 @@
     import vertexShader from './Shaders/vertex.glsl'
     import { spring } from 'svelte/motion';
 
-    export let mousePosition = new Vector2(0.0, 1.0);
-    let mouseUV = spring(mousePosition,{
+    import { pointerPosition } from '../PageComponents/pointerStore'
+    let mouseUV = spring( {x: 0, y: 0} ,{
         stiffness: 0.01,
         damping: 0.2,
         precision : 0.0005
@@ -26,10 +26,10 @@
     
     useFrame(({ clock }) => {
         uniforms.uTime.value = clock.getElapsedTime();
-        mouseUV.set(new Vector2(
-            1.0 - ((mousePosition.x * 0.6) / window.innerWidth),
-            1.0 - ((mousePosition.y * 0.8) / window.innerHeight)
-        ));
+        mouseUV.set({
+            x: 1.0 - (($pointerPosition.x * 0.6) / window.innerWidth),
+            y: 1.0 - (($pointerPosition.y * 0.8) / window.innerHeight)
+        });
 
         uniforms.uMouseUV.value = new Vector2(
             Math.max(0.0, Math.min(1.0, $mouseUV.x)), 
@@ -49,8 +49,4 @@ zoom=200.0
 interactive
 geometry={new PlaneGeometry(9, 8)}
 material={planeMaterial}
-on:pointermove={(event) => mouseUV.set(
-    {x: event.detail.uv.x , y : event.detail.uv.y}
-)}
-
 />
