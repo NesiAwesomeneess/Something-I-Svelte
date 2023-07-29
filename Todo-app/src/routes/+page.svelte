@@ -11,7 +11,8 @@
     import { slide } from 'svelte/transition';
     import { cubicOut } from 'svelte/easing';
 
-    
+    import {todoList} from '../lib/todo'
+
     let todos = [{task : "Sharpen spear.", id : 0, completed: false}]
     
     let newTask = ''
@@ -35,11 +36,11 @@
         taskInput.style.height = taskInput.scrollHeight - 24 + "px";
     }
     
-    // function taskCompleted(){
-        //     todos = todos.filter(({completed}) => {return !(completed)});
-        // }
+    function taskCompleted(){
+        todos = todos.filter(({completed}) => {return !(completed)});
+    }
         
-    import { context, pointerEnabled } from "../lib/PageComponents/pointerStore";
+    import { context, pointerEnabled } from "../lib/pointerStore";
 </script>
 
 <main class="page">
@@ -84,7 +85,7 @@
                     }
                 }} />
             
-            <BookmarkButton/>
+            <BookmarkButton on:clicked={taskCompleted}/>
         </div>
         
         <div class="decoration-frame">

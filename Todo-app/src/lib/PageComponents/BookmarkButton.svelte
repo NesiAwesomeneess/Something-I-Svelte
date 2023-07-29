@@ -1,7 +1,10 @@
 <script>
+    import { createEventDispatcher } from "svelte";
     import RiveComponent from "../RiveComponent.svelte";
-    import { context } from "./pointerStore";
+    import { context } from "../pointerStore";
     let animationInputs;
+
+    const clicked = createEventDispatcher()
 </script>
 
 
@@ -13,7 +16,10 @@
     on:mouseleave={(e) => {
         animationInputs[0].value = false
         context.set("null")}}
-    on:click={(e) => {animationInputs[1].fire()}}
+    on:click={(e) => {
+        animationInputs[1].fire()
+        clicked('clicked')
+        }}
 
     >
         <RiveComponent

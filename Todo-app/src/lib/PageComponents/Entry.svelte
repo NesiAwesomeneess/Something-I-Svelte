@@ -23,7 +23,7 @@
         id = id
     }
 
-    import {context, pointerEnabled} from './pointerStore'
+    import {context, pointerEnabled} from '../pointerStore'
 
 </script>
 
