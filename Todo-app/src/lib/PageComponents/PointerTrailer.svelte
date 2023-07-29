@@ -32,7 +32,7 @@
         if (!animationInputs){
             return
         }
-
+        
         if (!enabled){
             animationInputs[0].fire()
             opacity.set(0);
