@@ -1,9 +1,7 @@
 <script>
-  import { fade } from 'svelte/transition';
-
     export let completed = false
     export let id;
-    export let task = "new"
+    export let task = ""
     let newTask = task
 
     const date = new Date().toUTCString().slice(5, 16);;
