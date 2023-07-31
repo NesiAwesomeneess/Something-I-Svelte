@@ -11,8 +11,6 @@
     import { slide } from 'svelte/transition';
     import { cubicOut } from 'svelte/easing';
 
-    import {todoList} from '../lib/todo'
-
     let todos = [{task : "Sharpen spear.", id : 0, completed: false}]
     
     let newTask = ''

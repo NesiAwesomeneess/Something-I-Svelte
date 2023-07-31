@@ -1,5 +1,5 @@
 <script>
-    import { context, pointerEnabled, pointerPosition } from '../pointerStore'
+    import { context, pointerEnabled, pointerPosition } from '../stores/pointerStore'
     import { spring } from 'svelte/motion';
     import RiveComponent from '../RiveComponent.svelte';
     import { onMount } from 'svelte';

@@ -6,7 +6,7 @@
     import vertexShader from './Shaders/vertex.glsl'
     import { spring } from 'svelte/motion';
 
-    import { pointerPosition } from '../pointerStore'
+    import { pointerPosition } from '../stores/pointerStore'
     let mouseUV = spring( {x: 0, y: 0} ,{
         stiffness: 0.01,
         damping: 0.2,
