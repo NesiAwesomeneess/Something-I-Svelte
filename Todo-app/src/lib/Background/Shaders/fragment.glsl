@@ -116,7 +116,7 @@ void main(){
 
     //GRAIN
     vec2 randomUV = vec2(random(vUv));
-    float staticNoise = random(randomUV) * 0.02;
+    float staticNoise = random(randomUV) * 0.03;
 
     float factor = clamp(0.0, 1.0, (ratioStepped * valueInverted) - staticNoise);
 

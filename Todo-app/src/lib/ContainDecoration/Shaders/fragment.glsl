@@ -44,7 +44,7 @@ void main(){
 
     //GRAIN
     vec2 randomUV = vec2(random(vUv));
-    float staticNoise = random(randomUV) * 0.03;
+    float staticNoise = random(randomUV) * 0.04;
 
     float factor = gradient - staticNoise;
 
