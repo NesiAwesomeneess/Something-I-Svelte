@@ -8,15 +8,19 @@
     import PointerTrailer from "../lib/PageComponents/PointerTrailer.svelte";
     import BookmarkButton from '../lib/PageComponents/BookmarkButton.svelte';
 
+    import { onMount } from 'svelte';
     import { slide } from 'svelte/transition';
     import { cubicOut } from 'svelte/easing';
-    import { userData, saveToFireBase } from '../lib/stores/userStore';
+
+    import { userData, saveTodos } from '../lib/stores/userStore';
 
     let newTask = ''
     let todos = []
 
+    $: saveTodos(todos)
+
     onMount(() => {
-        todos = $userData.data.todos
+        todos = userData.todos
     })
     
     function addTodo(){
@@ -24,9 +28,6 @@
             todos = [...todos, {task: newTask, id : crypto.randomUUID()}]
         }
         newTask = ''
-
-        $userData.data.todos = todos
-        saveToFireBase()
     }
     
     function removeCompleted(){
@@ -44,7 +45,6 @@
     }
     
     import { context, pointerEnabled } from "../lib/stores/pointerStore";
-  import { onMount } from 'svelte';
 
 </script>
 
