@@ -10,35 +10,42 @@
 
     import { slide } from 'svelte/transition';
     import { cubicOut } from 'svelte/easing';
+    import { userData, saveToFireBase } from '../lib/stores/userStore';
 
-    let todos = [{task : "Sharpen spear.", id : 0, completed: false}]
-    
     let newTask = ''
-    let placeHolder = 'New Task'
-    
-    let taskInput;
-    
-    $: if ((newTask.length > 0) && taskInput){
-        resize()
-    }
+    let todos = []
+
+    onMount(() => {
+        todos = $userData.data.todos
+    })
     
     function addTodo(){
         if (newTask){
             todos = [...todos, {task: newTask, id : crypto.randomUUID()}]
         }
         newTask = ''
+
+        $userData.data.todos = todos
+        saveToFireBase()
     }
     
+    function removeCompleted(){
+        todos = todos.filter(({completed}) => {return !(completed)});
+    }
+    
+    let placeHolder = 'New Task'
+    let taskInput;
+    $: if ((newTask.length > 0) && taskInput){
+        resize()
+    }
     function resize(){
         taskInput.style.height = "1.25rem";
         taskInput.style.height = taskInput.scrollHeight - 24 + "px";
     }
     
-    function taskCompleted(){
-        todos = todos.filter(({completed}) => {return !(completed)});
-    }
-        
-    import { context, pointerEnabled } from "../lib/pointerStore";
+    import { context, pointerEnabled } from "../lib/stores/pointerStore";
+  import { onMount } from 'svelte';
+
 </script>
 
 <main class="page">
@@ -83,7 +90,7 @@
                     }
                 }} />
             
-            <BookmarkButton on:clicked={taskCompleted}/>
+            <BookmarkButton on:clicked={removeCompleted}/>
         </div>
         
         <div class="decoration-frame">
