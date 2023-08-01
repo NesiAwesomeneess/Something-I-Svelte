@@ -8,21 +8,20 @@
     import PointerTrailer from "../lib/PageComponents/PointerTrailer.svelte";
     import BookmarkButton from '../lib/PageComponents/BookmarkButton.svelte';
 
+    import { onMount } from 'svelte';
     import { slide } from 'svelte/transition';
     import { cubicOut } from 'svelte/easing';
 
-    import {todoList} from '../lib/todo'
+    import { userData, saveTodos } from '../lib/stores/userStore';
 
-    let todos = [{task : "Sharpen spear.", id : 0, completed: false}]
-    
     let newTask = ''
-    let placeHolder = 'New Task'
-    
-    let taskInput;
-    
-    $: if ((newTask.length > 0) && taskInput){
-        resize()
-    }
+    let todos = []
+
+    $: saveTodos(todos)
+
+    onMount(() => {
+        todos = userData.todos
+    })
     
     function addTodo(){
         if (newTask){
@@ -31,16 +30,22 @@
         newTask = ''
     }
     
+    function removeCompleted(){
+        todos = todos.filter(({completed}) => {return !(completed)});
+    }
+    
+    let placeHolder = 'New Task'
+    let taskInput;
+    $: if ((newTask.length > 0) && taskInput){
+        resize()
+    }
     function resize(){
         taskInput.style.height = "1.25rem";
         taskInput.style.height = taskInput.scrollHeight - 24 + "px";
     }
     
-    function taskCompleted(){
-        todos = todos.filter(({completed}) => {return !(completed)});
-    }
-        
-    import { context, pointerEnabled } from "../lib/pointerStore";
+    import { context, pointerEnabled } from "../lib/stores/pointerStore";
+
 </script>
 
 <main class="page">
@@ -85,7 +90,7 @@
                     }
                 }} />
             
-            <BookmarkButton on:clicked={taskCompleted}/>
+            <BookmarkButton on:clicked={removeCompleted}/>
         </div>
         
         <div class="decoration-frame">

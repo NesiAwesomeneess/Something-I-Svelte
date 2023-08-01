@@ -1,7 +1,7 @@
 <script>
     import { createEventDispatcher } from "svelte";
     import RiveComponent from "../RiveComponent.svelte";
-    import { context } from "../pointerStore";
+    import { context } from "../stores/pointerStore";
     let animationInputs;
 
     const clicked = createEventDispatcher()
