@@ -3,7 +3,7 @@
 
     import BackgroundLayout from '../lib/Background/BackgroundLayout.svelte';
     import ContainerDecoration from "../lib/ContainDecoration/ContainerDecoration.svelte";
-    
+
     import Entry from "../lib/PageComponents/Entry.svelte";
     import PointerTrailer from "../lib/PageComponents/PointerTrailer.svelte";
     import BookmarkButton from '../lib/PageComponents/BookmarkButton.svelte';
@@ -25,7 +25,7 @@
     
     function addTodo(){
         if (newTask){
-            todos = [...todos, {task: newTask, id : crypto.randomUUID()}]
+            todos = [...todos, {task: newTask, id : crypto.randomUUID(), steps: []}]
         }
         newTask = ''
     }
@@ -33,12 +33,13 @@
     function removeCompleted(){
         todos = todos.filter(({completed}) => {return !(completed)});
     }
-    
+
     let placeHolder = 'New Task'
     let taskInput;
     $: if ((newTask.length > 0) && taskInput){
         resize()
     }
+
     function resize(){
         taskInput.style.height = "1.25rem";
         taskInput.style.height = taskInput.scrollHeight - 24 + "px";
@@ -99,7 +100,10 @@
             </Canvas>
         </div>
         
-        <div class="detail-wrapper">
+        <div class="steps-wrapper">
+            <div class="task-title">
+                <span>Stuff.</span>
+            </div>
         </div>
     </div>
     
@@ -143,7 +147,7 @@
 
     .content-wrapper{
         position: relative;
-        top: -1em;
+        top: -2em;
 
         display: grid;
         gap: 0.25em 0.75em;
@@ -159,8 +163,9 @@
         place-content: center;
     }
 
-    .detail-wrapper{
+    .steps-wrapper{
         display: flex;
+        flex-direction: column;
 
         max-width: 22em;
         width: 100%;
@@ -174,7 +179,7 @@
 
     }
 
-    .detail-wrapper::before{
+    .steps-wrapper::after{
         position: relative;
         content: "";
 
@@ -185,6 +190,10 @@
         
         border-radius: 0.25em;
         background-color: #12161F;
+    }
+
+    .task-title{
+
     }
 
     .decoration-frame{
@@ -225,7 +234,7 @@
         height: 100%;
         
         padding: 0.25em;
-        border-radius: 1.75em 1.75em 1.5em 1.5em;
+        border-radius: 1.75em 1.75em 1.25em 1.25em;
         background-color: #12161F;
     }
 
@@ -261,7 +270,7 @@
         border-style: none;
         resize: none;
         
-        border-radius: 0.25em 0.25em 1.25em 1.25em;
+        border-radius: 0.25em 0.25em 1em 1em;
         
         font-size: 1rem;
         font-weight: 400;
