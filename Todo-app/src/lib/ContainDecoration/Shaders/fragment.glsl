@@ -10,7 +10,7 @@ ColorStop[5] palette = ColorStop[](
     ColorStop(vec3(0.071,0.086,0.122), 0.0),
     ColorStop(vec3(0.098,0.11,0.141), 0.1),
     ColorStop(vec3(0.45, 0.42, 0.8), 0.55),
-    ColorStop(vec3(1.,0.894,0.839), 0.9),
+    ColorStop(vec3(1.,0.835,0.894), 0.9),
     ColorStop(vec3(0.949,0.922,0.918), 1.0)
 );
 
@@ -39,12 +39,12 @@ float random(vec2 p){
 }
 
 void main(){
-    float d = 1.0 - length(vUv - vec2(0.5, 0.95));
-    float gradient = smoothstep(0.0, 1.0, d);
+    float d = length(vUv - vec2(0.5, 0.0));
+    float gradient = smoothstep(0.3, 1.0, d);
 
     //GRAIN
     vec2 randomUV = vec2(random(vUv));
-    float staticNoise = random(randomUV) * 0.04;
+    float staticNoise = random(randomUV) * 0.06;
 
     float factor = gradient - staticNoise;
 

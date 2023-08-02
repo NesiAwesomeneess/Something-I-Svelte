@@ -3,7 +3,8 @@
 
     import BackgroundLayout from '../lib/Background/BackgroundLayout.svelte';
     import ContainerDecoration from "../lib/ContainDecoration/ContainerDecoration.svelte";
-    
+
+    import EntryDetails from '../lib/PageComponents/EntryDetails.svelte';
     import Entry from "../lib/PageComponents/Entry.svelte";
     import PointerTrailer from "../lib/PageComponents/PointerTrailer.svelte";
     import BookmarkButton from '../lib/PageComponents/BookmarkButton.svelte';
@@ -25,7 +26,7 @@
     
     function addTodo(){
         if (newTask){
-            todos = [...todos, {task: newTask, id : crypto.randomUUID()}]
+            todos = [...todos, {task: newTask, id : crypto.randomUUID(), steps: []}]
         }
         newTask = ''
     }
@@ -33,12 +34,13 @@
     function removeCompleted(){
         todos = todos.filter(({completed}) => {return !(completed)});
     }
-    
+
     let placeHolder = 'New Task'
     let taskInput;
     $: if ((newTask.length > 0) && taskInput){
         resize()
     }
+
     function resize(){
         taskInput.style.height = "1.25rem";
         taskInput.style.height = taskInput.scrollHeight - 24 + "px";
@@ -99,7 +101,12 @@
             </Canvas>
         </div>
         
-        <div class="detail-wrapper">
+        <div class="steps-wrapper">
+            <div class="steps-container">
+                {#if todos.length > 0}
+                    <EntryDetails entry={todos[0]}/>
+                {/if}
+            </div>
         </div>
     </div>
     
@@ -143,11 +150,11 @@
 
     .content-wrapper{
         position: relative;
-        top: -1em;
+        top: -2em;
 
         display: grid;
         gap: 0.25em 0.75em;
-        grid-template-columns: minmax(24em, 2fr) minmax(15em, 1.2fr);
+        grid-template-columns: minmax(24em, 2fr) minmax(16em, 1.4fr);
         grid-template-rows: minmax(100%, 30em);
         grid-template-areas: "todo";
 
@@ -159,8 +166,9 @@
         place-content: center;
     }
 
-    .detail-wrapper{
+    .steps-wrapper{
         display: flex;
+        flex-direction: column;
 
         max-width: 22em;
         width: 100%;
@@ -168,13 +176,16 @@
 
         padding: 0.25em;
 
-        border-radius: 1.5em;
-        background-color: #12161F;
+        border-radius: 1.25em;
+        background-color: #12161ffa;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+
         box-shadow: 5px 5px 10px -2px rgba(20, 20, 20, 0.345);
 
     }
 
-    .detail-wrapper::before{
+    .steps-wrapper::after{
         position: relative;
         content: "";
 
@@ -185,6 +196,11 @@
         
         border-radius: 0.25em;
         background-color: #12161F;
+    }
+
+    .steps-container{
+        height: 0;
+        width: 100%;
     }
 
     .decoration-frame{
@@ -225,7 +241,7 @@
         height: 100%;
         
         padding: 0.25em;
-        border-radius: 1.75em 1.75em 1.5em 1.5em;
+        border-radius: 1.75em 1.75em 1.25em 1.25em;
         background-color: #12161F;
     }
 
@@ -261,7 +277,7 @@
         border-style: none;
         resize: none;
         
-        border-radius: 0.25em 0.25em 1.25em 1.25em;
+        border-radius: 0.25em 0.25em 1em 1em;
         
         font-size: 1rem;
         font-weight: 400;
@@ -281,7 +297,7 @@
     .entry-input::selection{
         caret-color: #6961C2;
         background-color: #6961C2;
-        color: #FFE4D6;
+        color: #ffd5e4;
     }
     
     .entry-input:focus-visible {
