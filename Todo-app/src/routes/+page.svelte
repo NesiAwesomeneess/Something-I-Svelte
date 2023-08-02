@@ -4,6 +4,7 @@
     import BackgroundLayout from '../lib/Background/BackgroundLayout.svelte';
     import ContainerDecoration from "../lib/ContainDecoration/ContainerDecoration.svelte";
 
+    import EntryDetails from '../lib/PageComponents/EntryDetails.svelte';
     import Entry from "../lib/PageComponents/Entry.svelte";
     import PointerTrailer from "../lib/PageComponents/PointerTrailer.svelte";
     import BookmarkButton from '../lib/PageComponents/BookmarkButton.svelte';
@@ -101,8 +102,10 @@
         </div>
         
         <div class="steps-wrapper">
-            <div class="task-title">
-                <span>Stuff.</span>
+            <div class="steps-container">
+                {#if todos.length > 0}
+                    <EntryDetails entry={todos[0]}/>
+                {/if}
             </div>
         </div>
     </div>
@@ -151,7 +154,7 @@
 
         display: grid;
         gap: 0.25em 0.75em;
-        grid-template-columns: minmax(24em, 2fr) minmax(15em, 1.2fr);
+        grid-template-columns: minmax(24em, 2fr) minmax(16em, 1.4fr);
         grid-template-rows: minmax(100%, 30em);
         grid-template-areas: "todo";
 
@@ -173,8 +176,11 @@
 
         padding: 0.25em;
 
-        border-radius: 1.5em;
-        background-color: #12161F;
+        border-radius: 1.25em;
+        background-color: #12161ffa;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+
         box-shadow: 5px 5px 10px -2px rgba(20, 20, 20, 0.345);
 
     }
@@ -192,8 +198,9 @@
         background-color: #12161F;
     }
 
-    .task-title{
-
+    .steps-container{
+        height: 0;
+        width: 100%;
     }
 
     .decoration-frame{
@@ -290,7 +297,7 @@
     .entry-input::selection{
         caret-color: #6961C2;
         background-color: #6961C2;
-        color: #FFE4D6;
+        color: #ffd5e4;
     }
     
     .entry-input:focus-visible {

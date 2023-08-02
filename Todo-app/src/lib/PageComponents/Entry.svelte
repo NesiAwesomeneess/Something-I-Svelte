@@ -4,10 +4,14 @@
     export let task = ""
     let newTask = task
 
-    const date = new Date().toUTCString().slice(5, 16);;
-
+    const date = new Date().toUTCString().slice(5, 16);
+    
     let textArea;
     $: if ((newTask.length > 0) && textArea){
+        resize()
+    }
+        
+    function resize(){
         textArea.style.height = "1.5rem";
         textArea.style.height = textArea.scrollHeight + "px";
     }
@@ -26,7 +30,7 @@
 </script>
 
 <!-- this is a list entry essentially -->
-<input type="checkbox" 
+<input type="checkbox"
     class:completed={completed}
     class="checkbox" 
     bind:checked={completed}
@@ -51,6 +55,7 @@
         on:focus={() => {
             textArea.select(); 
             pointerEnabled.set(false)
+            resize()
         }}
         on:blur={() => {
             finishedEdit()
@@ -58,9 +63,7 @@
         }}
 
         on:keydown={(event) => {
-            if (event.key === "Enter"){textArea.blur()
-        }}}
-        
+            if (event.key === "Enter"){textArea.blur()}}}
         />
     {/if}
     
@@ -131,7 +134,7 @@
         
         font-size: 1.125rem;
         line-height: 1.15em;
-        height: 1.5em;
+        height: 100%;
         font-weight: 700;
 
         border: none;
@@ -140,7 +143,7 @@
     }
 
     .entry-edit::selection{
-        background-color: #B8A3A3;
+        background-color: #ffd5e4;
         color: #2B3039;
     }
 
