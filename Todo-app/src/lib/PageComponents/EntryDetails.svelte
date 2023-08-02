@@ -1,10 +1,14 @@
 <script>
     import { Canvas } from "@threlte/core";
+    import { slide } from 'svelte/transition';
+    import { cubicOut } from 'svelte/easing';
+    import { createEventDispatcher } from 'svelte';
+    const dispatch = createEventDispatcher();
+    
     import BackgroundLayout from "../Background/BackgroundLayout.svelte";
-
-
+    import Step from "./Step.svelte";
+    
     export let entry = {task: '', steps: []};
-    $: steps = entry.steps
 
     let stepInput;
     let newStep = '';
@@ -12,12 +16,13 @@
 
     function addStep(){
         if (newStep){
-            steps = [...steps, newStep]
+            entry.steps = [...entry.steps, {task : newStep, id : crypto.randomUUID(), completed: false}]
         }
         newStep = ''
     }
 
     import { context, pointerEnabled } from "../stores/pointerStore"
+
 </script>
 
 <div class="wrapper">
@@ -29,16 +34,16 @@
             <BackgroundLayout/>
         </Canvas>
     </div>
-    <div class="steps-wrapper">
-        {#each steps as step}
-            <div>
 
+    <div class="steps-wrapper">
+        {#each entry.steps as step (step.id)}
+            <div class="step" transition:slide={{duration : 200, easing: cubicOut}}>
+                <Step bind:step={step}/>
             </div>
         {/each}
         
-        <textarea 
+        <textarea class="step-input"
             placeholder={placeHolder}
-            class="step-input"
             bind:this={stepInput}
             bind:value={newStep}
             
@@ -68,6 +73,12 @@
 </div>
 
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+
+        font-family: 'Montserrat';
+    }
     .wrapper{
         display: grid;
 
@@ -77,15 +88,19 @@
     }
 
     .steps-wrapper{
+        display: flex;
+        flex-direction: column;
+        gap: 0.125em;
+
         grid-row: 2;
         grid-column: 1;
 
-        margin-top: 0.25em;
-
+        margin-top: 0.375em;
         width: 100%;
     }
 
     .step-input{
+        margin: 0;
         border-style: none;
         resize: none;
         
@@ -127,6 +142,8 @@
 
         position: relative;
         bottom: 100%;
+
+        height: 100vh;
 
         border-radius: 1em;
         max-width: 100%;

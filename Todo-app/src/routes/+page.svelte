@@ -15,10 +15,11 @@
 
     import { userData, saveTodos } from '../lib/stores/userStore';
 
+    let expandedEntry;
     let newTask = ''
     let todos = []
 
-    $: saveTodos(todos)
+    $: if (expandedEntry !== -1){saveTodos(todos)}
 
     onMount(() => {
         todos = userData.todos
@@ -55,11 +56,10 @@
         <div class="todo-list">
             <div class="entries-wrapper">
                 {#each todos as entry (entry.id)}
-                <div transition:slide={{duration : 200, easing: cubicOut}} class="entry">
-                    <Entry id={entry.id}
-                        bind:task={entry.task}
-                        bind:completed={entry.completed}/>
-                </div>
+                    <div class="entry"
+                    transition:slide={{duration : 200, easing: cubicOut}}>
+                        <Entry on:expand={() =>{expandedEntry = entry}} bind:todo={entry}/>
+                    </div>
                 {/each}
             </div>
             
@@ -103,8 +103,10 @@
         
         <div class="steps-wrapper">
             <div class="steps-container">
-                {#if todos.length > 0}
-                    <EntryDetails entry={todos[0]}/>
+                {#if expandedEntry}
+                    <EntryDetails 
+                    bind:entry={expandedEntry}
+                    />
                 {/if}
             </div>
         </div>

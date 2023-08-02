@@ -22,6 +22,7 @@ export const userDataLoading = writable(true);
 export async function saveTodos(tasks) {
   const userDocReference = doc(db, "users", user.uid);
   const data = { todos: tasks };
+  console.log(tasks);
   await setDoc(userDocReference, data, { merge: true });
 }
 

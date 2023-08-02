@@ -1,16 +1,21 @@
 <script>
-    export let completed = false
-    export let id;
-    export let task = ""
-    let newTask = task
+    import { createEventDispatcher } from 'svelte';
+    const dispatch = createEventDispatcher();
 
+    function expandEntry() {
+		dispatch('expand');
+	}
+
+    export let todo = {}
+    let newTask = todo.task
+    
     const date = new Date().toUTCString().slice(5, 16);
     
     let textArea;
     $: if ((newTask.length > 0) && textArea){
         resize()
     }
-        
+    
     function resize(){
         textArea.style.height = "1.5rem";
         textArea.style.height = textArea.scrollHeight + "px";
@@ -18,31 +23,31 @@
 
     function finishedEdit(){
         if (newTask){
-            task = newTask
+            todo.task = newTask
             return
         }
         newTask = task
-        id = id
     }
 
     import {context, pointerEnabled} from '../stores/pointerStore'
 
 </script>
 
-<!-- this is a list entry essentially -->
+<!-- this is a list todo essentially -->
 <input type="checkbox"
-    class:completed={completed}
-    class="checkbox" 
-    bind:checked={completed}
+    class:completed={todo.completed}
+    class="checkbox"
+    bind:checked={todo.completed}
 
-    on:click={() => context.set(completed ? "done" : "checked")}
-    on:mouseenter={() => {context.set(completed ? "checked" : 'done')}}
+    on:click={() => context.set(todo.completed ? "done" : "checked")}
+    on:mouseenter={() => {context.set(todo.completed ? "checked" : 'done')}}
     on:mouseleave={() => context.set('null')}
     />
 
-<div class="entry-wrapper">
-    {#if completed}
-        <p class="entry-edit completed-task">{task}</p>
+<button class="entry-wrapper"
+on:click={expandEntry}>
+    {#if todo.completed}
+        <p class="entry-edit completed-task">{todo.task}</p>
     {:else}
         <textarea
         class="entry-edit"
@@ -57,6 +62,7 @@
             pointerEnabled.set(false)
             resize()
         }}
+        
         on:blur={() => {
             finishedEdit()
             pointerEnabled.set(true)
@@ -68,7 +74,7 @@
     {/if}
     
     <span class="entry-date">{date}</span>
-</div>
+</button>
 
 <style>
     * {
@@ -114,12 +120,13 @@
     }
 
     .entry-wrapper{
+        border: none;
         display: flex;
         flex-direction: column;
         gap: 0.25em;
 
         padding: 0.75em; 
-        width: calc(100% - 4.25em);
+        width: 100%;
         align-items: flex-start;
 
         border-radius: 0.25em 0.25em 1.2em 1.2em;
