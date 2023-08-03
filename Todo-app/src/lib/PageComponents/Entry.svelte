@@ -1,15 +1,14 @@
 <script>
     import { createEventDispatcher } from 'svelte';
-    const dispatch = createEventDispatcher();
 
+    const dispatch = createEventDispatcher();
     function expandEntry() {
 		dispatch('expand');
 	}
 
     export let entry = {}
     let newTask = entry.task
-    
-    const date = new Date().toUTCString().slice(5, 16);
+    let spellCheck = false
     
     let textArea;
     $: if ((newTask.length > 0) && textArea){
@@ -45,12 +44,13 @@
     />
 
 <button class="entry-wrapper"
-on:click={expandEntry}>
+on:click|self={expandEntry}>
     {#if entry.completed}
         <p class="entry-edit completed-task">{entry.task}</p>
     {:else}
         <textarea
         class="entry-edit"
+        spellcheck={spellCheck}
         bind:this={textArea}
         bind:value={newTask}
 
@@ -61,11 +61,13 @@ on:click={expandEntry}>
             textArea.select(); 
             pointerEnabled.set(false)
             resize()
+            spellCheck = true
         }}
         
         on:blur={() => {
             finishedEdit()
             pointerEnabled.set(true)
+            spellCheck = false
         }}
 
         on:keydown={(event) => {
@@ -73,7 +75,7 @@ on:click={expandEntry}>
         />
     {/if}
     
-    <span class="entry-date">{date}</span>
+    <span class="entry-date">{entry.date}</span>
 </button>
 
 <style>

@@ -6,6 +6,9 @@
     import vertexShader from './Shaders/vertex.glsl'
     import { spring } from 'svelte/motion';
 
+    let height;
+    let width;
+
     import { pointerPosition } from '../stores/pointerStore'
     let mouseUV = spring( {x: 0, y: 0} ,{
         stiffness: 0.01,
@@ -27,8 +30,8 @@
     useFrame(({ clock }) => {
         uniforms.uTime.value = clock.getElapsedTime();
         mouseUV.set({
-            x: 1.0 - (($pointerPosition.x * 0.6) / window.innerWidth),
-            y: 1.0 - (($pointerPosition.y * 0.8) / window.innerHeight)
+            x: 1.0 - (($pointerPosition.x * 0.6) / width),
+            y: 1.0 - (($pointerPosition.y * 0.8) / height)
         });
 
         uniforms.uMouseUV.value = new Vector2(
@@ -50,3 +53,5 @@ interactive
 geometry={new PlaneGeometry(9, 8)}
 material={planeMaterial}
 />
+
+<svelte:window bind:innerHeight={height} bind:innerWidth={width}/>

@@ -8,14 +8,12 @@
         stiffness: 0.02,
         damping: 0.2
     });
-    
-    onMount(() => {
-        window.onmousemove = (e) => {
-            pointerPosition.set({x: e.clientX, y: e.clientY});
-            coords.set({x: e.clientX, y: e.clientY});
-            checkContext($context, $pointerEnabled);
-        }
-    })
+
+    function handleMouseMove({clientX, clientY}){
+        pointerPosition.set({x: clientX, y: clientY});
+        coords.set({x: clientX, y: clientY});
+        checkContext($context, $pointerEnabled);
+    }
 
     $: checkContext($context, $pointerEnabled)
 
@@ -80,7 +78,9 @@
 
 </script>
 
-<div id="mouse-trail" 
+<svelte:window on:mousemove={handleMouseMove}/>
+
+<div id="mouse-trail"
     style="
     display: grid;
     width : {$size}px; 

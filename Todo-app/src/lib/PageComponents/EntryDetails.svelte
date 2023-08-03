@@ -50,33 +50,35 @@
                 </div>
             {/each}
             
-            <textarea class="step-input"
-                placeholder={placeHolder}
-                bind:this={stepInput}
-                bind:value={newStep}
-                
-                on:mouseenter={() => context.set('add')}
-                on:mouseleave={() => context.set('null')}
+            <div class="step-input-wrapper">
+                <textarea class="step-input"
+                    placeholder={placeHolder}
+                    bind:this={stepInput}
+                    bind:value={newStep}
+                    
+                    on:mouseenter={() => context.set('add')}
+                    on:mouseleave={() => context.set('null')}
 
-                on:focus={() => {
-                    newStep="";
-                    placeHolder=''
-                    pointerEnabled.set(false)
-                }}
+                    on:focus={() => {
+                        newStep="";
+                        placeHolder=''
+                        pointerEnabled.set(false)
+                    }}
 
-                on:blur={() => {
-                    addStep();
-                    stepInput.style.height = "1.25rem";
-                    placeHolder='New Step'
-                    pointerEnabled.set(true)
-                }}
-                
-                on:keydown={(event) => {
-                    if (event.key === "Enter"){
-                        event.target.blur();
-                        return
-                    }
-                }} />
+                    on:blur={() => {
+                        addStep();
+                        stepInput.style.height = "1.25rem";
+                        placeHolder='New Step'
+                        pointerEnabled.set(true)
+                    }}
+                    
+                    on:keydown={(event) => {
+                        if (event.key === "Enter"){
+                            event.target.blur();
+                            return
+                        }
+                    }} />
+            </div>
 
         </div>
     </div>
@@ -103,6 +105,9 @@
     }
 
     .steps-container{
+        display: flex;
+        flex-direction: column;
+        
         width: 100%;
         padding-left: 0.75em;
         padding-top: 0.25em;
@@ -129,13 +134,26 @@
         width: 100%;
     }
 
+    .step-input-wrapper{
+        display: grid;
+        grid-auto-flow: row;
+    }
+
+    .step-input-wrapper::before{
+        position: relative;
+        content: '';
+        justify-content: center;
+        
+        background-color: #2B3039;
+        top: -2px;
+        height: 2px;
+        width: 100%;
+    }
+
     .step-input{
         margin: 0;
         border-style: none;
         resize: none;
-
-        justify-self: center;
-        margin-left: 2em; 
         
         font-size: 1rem;
         font-weight: 400;
@@ -145,7 +163,7 @@
         height: 1.25rem;
         color: #ACACAF;
         
-        padding: 0.75em;
+        padding: 0.75em 0;
 
         background: none;
         z-index: 1;
@@ -156,6 +174,7 @@
         caret-color: #6961C2;
         background-color: #6961C2;
         color: #ffd5e4;
+        cursor: text;
     }
     
     .step-input:focus-visible {

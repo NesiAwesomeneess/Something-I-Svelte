@@ -87,7 +87,7 @@ on:mouseleave={() => context.set('null')}
     }
 
     .checkbox[type="checkbox"].completed{
-        background-color: #2C2F3A;
+        background-color: #12161f;
     }
 
     .step-wrapper{
@@ -115,7 +115,7 @@ on:mouseleave={() => context.set('null')}
         text-align: left;
         resize: none;
 
-        width: calc(100% - 1em);
+        width: calc(100% - 1.25em);
 
         margin-left: 0.5em;
         

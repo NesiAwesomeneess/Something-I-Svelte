@@ -10,12 +10,12 @@
     import BookmarkButton from '../lib/PageComponents/BookmarkButton.svelte';
 
     import { onMount } from 'svelte';
-    import { slide } from 'svelte/transition';
-    import { cubicOut } from 'svelte/easing';
+    import { blur, fade, slide } from 'svelte/transition';
+    import { cubicOut, cubicIn } from 'svelte/easing';
 
     import { userData, saveTodos } from '../lib/stores/userStore';
 
-    let expandedEntry;
+    let expandedEntry = {task: '', id: 0};
     let newTask = ''
     let todos = []
 
@@ -24,26 +24,18 @@
         expandedEntry = expandedEntry;
     }
 
-    function changeExpandedEntry(entry){
-        if (!expandedEntry){
-            expandedEntry = entry
-            return
-        }
-
-        if (entry.id !== expandedEntry.id){
-            expandedEntry = entry
-        }
-    }
-
     onMount(() => {
         todos = userData.todos
     })
     
     function addTodo(){
         if (newTask){
-            const entry = {task: newTask, id : crypto.randomUUID(), steps: []}
+            const entry = {task: newTask, 
+                id : crypto.randomUUID(), 
+                steps: [],
+                date: new Date().toUTCString().slice(5, 16)}
             todos = [...todos, entry]
-            changeExpandedEntry(entry)
+            expandedEntry = entry
         }
         newTask = ''
     }
@@ -73,9 +65,12 @@
                 {#each todos as entry (entry.id)}
                     <div class="entry"
                     transition:slide={{duration : 200, easing: cubicOut}}>
-                        <Entry
-                            bind:entry={entry}
-                            on:expand={() =>{changeExpandedEntry(entry)}}/>
+                        {#if entry.id === expandedEntry.id}
+                            <Entry bind:entry={expandedEntry}/>
+                        {:else}
+                            <Entry bind:entry={entry}
+                            on:expand={() => expandedEntry = entry}/>
+                        {/if}
                     </div>
                 {/each}
             </div>
@@ -119,11 +114,17 @@
         </div>
         
         <div class="steps-wrapper">
-            <div class="steps-container">
-                {#if expandedEntry}
-                    <EntryDetails bind:entry={expandedEntry}/>
-                {/if}
-            </div>
+            {#key expandedEntry.id}
+                <div class="steps-container"
+                transition:fade={{
+                    duration: 200, 
+                    easing: cubicIn,
+                    }}>
+                    {#if expandedEntry.task}
+                        <EntryDetails bind:entry={expandedEntry}/>
+                    {/if}
+                </div>
+            {/key}
         </div>
     </div>
     
@@ -144,8 +145,6 @@
 
         font-family: 'Montserrat';
     }
-
-    
 
     .background{
         position: absolute;
@@ -326,6 +325,7 @@
         font-style:normal;
         font-weight: 600;
         color: #F5F5F5;
+        cursor: text;
     }
     
 </style>
