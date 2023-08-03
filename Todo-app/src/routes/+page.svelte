@@ -48,7 +48,6 @@
     }
     
     import { context, pointerEnabled } from "../lib/stores/pointerStore";
-
 </script>
 
 <main class="page">
@@ -58,7 +57,9 @@
                 {#each todos as entry (entry.id)}
                     <div class="entry"
                     transition:slide={{duration : 200, easing: cubicOut}}>
-                        <Entry on:expand={() =>{expandedEntry = entry}} bind:todo={entry}/>
+                        <Entry
+                            on:expand={() =>{expandedEntry = entry}}
+                            bind:todo={entry}/>
                     </div>
                 {/each}
             </div>
@@ -104,9 +105,7 @@
         <div class="steps-wrapper">
             <div class="steps-container">
                 {#if expandedEntry}
-                    <EntryDetails 
-                    bind:entry={expandedEntry}
-                    />
+                    <EntryDetails bind:entry={expandedEntry}/>
                 {/if}
             </div>
         </div>

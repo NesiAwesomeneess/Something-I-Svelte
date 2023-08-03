@@ -138,5 +138,13 @@ on:mouseleave={() => context.set('null')}
         outline-style: none;
     }
 
+    .completed-task {
+        text-decoration: line-through;
+        text-decoration-thickness: 2px;
+        color: #ACACAF;
+
+        word-wrap: break-word;
+        height: auto;
+    }
     
 </style>
