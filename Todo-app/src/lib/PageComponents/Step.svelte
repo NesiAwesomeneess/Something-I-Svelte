@@ -55,8 +55,6 @@
 </div>
 
 <style>
-
-
     * {
         margin: 0;
         padding: 0;
@@ -64,11 +62,21 @@
     }
 
     .step-wrapper{
-        background-color: #2C2F3A;
-        border-radius: 0.75em;
+        display: grid;
+        grid-auto-flow: row;
 
-        height: calc(100% - 0.75em);
+        justify-self: center;
         padding: 0.25em 0.75em;
+    }
+
+    .step-wrapper::after{
+        position: relative;
+        content: "";
+
+        top: 2px;
+
+        height: 2px;
+        background: #2B3039;
     }
 
     .step-edit {
@@ -76,13 +84,15 @@
         resize: none;
 
         width: 100%;
+
+        margin-left: 0.5em;
         
         font-size: 1rem;
         height: 100%;
         font-weight: 600;
 
         border: none;
-        color: #F5F5F5;
+        color: #ACACAF;
         background: none;
     }
 

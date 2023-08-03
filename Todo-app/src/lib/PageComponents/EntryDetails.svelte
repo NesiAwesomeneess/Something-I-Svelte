@@ -2,8 +2,6 @@
     import { Canvas } from "@threlte/core";
     import { slide } from 'svelte/transition';
     import { cubicOut } from 'svelte/easing';
-    import { createEventDispatcher } from 'svelte';
-    const dispatch = createEventDispatcher();
     
     import BackgroundLayout from "../Background/BackgroundLayout.svelte";
     import Step from "./Step.svelte";
@@ -12,7 +10,7 @@
 
     let stepInput;
     let newStep = '';
-    let placeHolder = 'Next step'
+    let placeHolder = 'Next Step'
 
     function addStep(){
         if (newStep){
@@ -35,40 +33,43 @@
         </Canvas>
     </div>
 
-    <div class="steps-wrapper">
-        {#each entry.steps as step (step.id)}
-            <div class="step" transition:slide={{duration : 200, easing: cubicOut}}>
-                <Step bind:step={step}/>
-            </div>
-        {/each}
-        
-        <textarea class="step-input"
-            placeholder={placeHolder}
-            bind:this={stepInput}
-            bind:value={newStep}
+    <div class="entry-steps-container">
+        <div class="steps-container">
+            {#each entry.steps as step (step.id)}
+                <div class="step" transition:slide={{duration : 200, easing: cubicOut}}>
+                    <Step bind:step={step}/>
+                </div>
+            {/each}
             
-            on:mouseenter={() => context.set('add')}
-            on:mouseleave={() => context.set('null')}
+            <textarea class="step-input"
+                placeholder={placeHolder}
+                bind:this={stepInput}
+                bind:value={newStep}
+                
+                on:mouseenter={() => context.set('add')}
+                on:mouseleave={() => context.set('null')}
 
-            on:focus={() => {
-                newStep="";
-                placeHolder=''
-                pointerEnabled.set(false)
-            }}
+                on:focus={() => {
+                    newStep="";
+                    placeHolder=''
+                    pointerEnabled.set(false)
+                }}
 
-            on:blur={() => {
-                addStep();
-                stepInput.style.height = "1.25rem";
-                placeHolder='New Task'
-                pointerEnabled.set(true)
-            }}
-            
-            on:keydown={(event) => {
-                if (event.key === "Enter"){
-                    event.target.blur();
-                    return
-                }
-            }} />
+                on:blur={() => {
+                    addStep();
+                    stepInput.style.height = "1.25rem";
+                    placeHolder='New Step'
+                    pointerEnabled.set(true)
+                }}
+                
+                on:keydown={(event) => {
+                    if (event.key === "Enter"){
+                        event.target.blur();
+                        return
+                    }
+                }} />
+
+        </div>
     </div>
 </div>
 
@@ -79,6 +80,7 @@
 
         font-family: 'Montserrat';
     }
+
     .wrapper{
         display: grid;
 
@@ -87,15 +89,25 @@
         overflow: hidden;
     }
 
-    .steps-wrapper{
+    .steps-container{
+        width: calc(100% - 1em);
+        padding-left: 0.25em;
+
+        background-color: #191C24;
+        border-radius: 0.5em;
+    }
+
+    .entry-steps-container{
         display: flex;
         flex-direction: column;
-        gap: 0.125em;
+
+        align-items: center;
+        height: 100%;
 
         grid-row: 2;
         grid-column: 1;
 
-        margin-top: 0.375em;
+        margin-top: 0.5em;
         width: 100%;
     }
 
@@ -103,8 +115,9 @@
         margin: 0;
         border-style: none;
         resize: none;
-        
-        border-radius: 1em;
+
+        justify-self: center;
+        margin-left: 0.5em; 
         
         font-size: 1rem;
         font-weight: 400;
@@ -113,10 +126,9 @@
         height: 1.25rem;
         color: #ACACAF;
         
-        width: calc(100% - 1.5em);
         padding: 0.75em;
-        
-        background-color: #191C24;
+
+        background: none;
         z-index: 1;
         cursor: pointer;
     }
@@ -155,7 +167,7 @@
         display: grid;
         grid-auto-flow: column;
         grid-template-columns: 0.25em;
-        gap: 0.75em;
+        gap: 0.5em;
 
         padding: 0.75em 1em;
 
@@ -168,7 +180,11 @@
     .task-title::before{
         position: relative;
         content: "";
-        background-color: #ffd5e4;
+
+        align-self: center;
+        justify-self: center;
+
+        background-color: #12161ffa;
 
         border-radius: 0.25em;
         width: 100%;
