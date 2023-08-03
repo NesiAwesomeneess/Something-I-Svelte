@@ -20,8 +20,19 @@
     let todos = []
 
     $: {
-        expandedEntry = expandedEntry;
         saveTodos(todos);
+        expandedEntry = expandedEntry;
+    }
+
+    function changeExpandedEntry(entry){
+        if (!expandedEntry){
+            expandedEntry = entry
+            return
+        }
+
+        if (entry.id !== expandedEntry.id){
+            expandedEntry = entry
+        }
     }
 
     onMount(() => {
@@ -30,7 +41,9 @@
     
     function addTodo(){
         if (newTask){
-            todos = [...todos, {task: newTask, id : crypto.randomUUID(), steps: []}]
+            const entry = {task: newTask, id : crypto.randomUUID(), steps: []}
+            todos = [...todos, entry]
+            changeExpandedEntry(entry)
         }
         newTask = ''
     }
@@ -62,7 +75,7 @@
                     transition:slide={{duration : 200, easing: cubicOut}}>
                         <Entry
                             bind:entry={entry}
-                            on:expand={() =>{expandedEntry = entry}}/>
+                            on:expand={() =>{changeExpandedEntry(entry)}}/>
                     </div>
                 {/each}
             </div>
@@ -131,6 +144,8 @@
 
         font-family: 'Montserrat';
     }
+
+    
 
     .background{
         position: absolute;

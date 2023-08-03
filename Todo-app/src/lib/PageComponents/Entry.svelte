@@ -1,5 +1,4 @@
 <script>
-    
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
 
@@ -27,7 +26,7 @@
             entry.task = newTask
             return
         }
-        newTask = task
+        newTask = entry.task
     }
 
     import {context, pointerEnabled} from '../stores/pointerStore'
@@ -132,6 +131,7 @@ on:click={expandEntry}>
 
         border-radius: 0.25em 0.25em 1.2em 1.2em;
         background-color: #2C2F3A;
+        cursor: pointer;
     }
 
     .entry-edit {

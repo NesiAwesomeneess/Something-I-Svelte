@@ -25,7 +25,7 @@ zoom=200.0
 
 <Mesh
 interactive
-geometry={new PlaneGeometry(4, 4)}
+geometry={new PlaneGeometry(6, 4)}
 material={material}
 position={{y: 0.25}}
 />

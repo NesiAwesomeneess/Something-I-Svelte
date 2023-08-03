@@ -73,6 +73,8 @@
             case "checked":
                 animationInputs[5].fire()
                 break;
+            case "interact":
+                break;
         }
     }
 

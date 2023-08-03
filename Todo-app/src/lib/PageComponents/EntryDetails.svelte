@@ -6,7 +6,7 @@
     import BackgroundLayout from "../Background/BackgroundLayout.svelte";
     import Step from "./Step.svelte";
     
-    export let entry = {task: '', steps: []};
+    export let entry;
     
     let stepInput;
     $: if ((newStep.length > 0) && stepInput){

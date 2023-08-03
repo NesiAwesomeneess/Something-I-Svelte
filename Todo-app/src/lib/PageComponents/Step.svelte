@@ -1,5 +1,5 @@
 <script>
-    export let step = {task: '', completed: false}
+    export let step;
     let newStep = step.task
 
     let textArea;
