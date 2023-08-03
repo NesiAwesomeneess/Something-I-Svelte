@@ -1,4 +1,5 @@
 <script>
+    
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
 
@@ -6,8 +7,8 @@
 		dispatch('expand');
 	}
 
-    export let todo = {}
-    let newTask = todo.task
+    export let entry = {}
+    let newTask = entry.task
     
     const date = new Date().toUTCString().slice(5, 16);
     
@@ -23,7 +24,7 @@
 
     function finishedEdit(){
         if (newTask){
-            todo.task = newTask
+            entry.task = newTask
             return
         }
         newTask = task
@@ -35,19 +36,19 @@
 
 <!-- this is a list todo essentially -->
 <input type="checkbox"
-    class:completed={todo.completed}
+    class:completed={entry.completed}
     class="checkbox"
-    bind:checked={todo.completed}
+    bind:checked={entry.completed}
 
-    on:click={() => context.set(todo.completed ? "done" : "checked")}
-    on:mouseenter={() => {context.set(todo.completed ? "checked" : 'done')}}
+    on:click={() => context.set(entry.completed ? "done" : "checked")}
+    on:mouseenter={() => {context.set(entry.completed ? "checked" : 'done')}}
     on:mouseleave={() => context.set('null')}
     />
 
 <button class="entry-wrapper"
 on:click={expandEntry}>
-    {#if todo.completed}
-        <p class="entry-edit completed-task">{todo.task}</p>
+    {#if entry.completed}
+        <p class="entry-edit completed-task">{entry.task}</p>
     {:else}
         <textarea
         class="entry-edit"

@@ -19,7 +19,10 @@
     let newTask = ''
     let todos = []
 
-    $: if (expandedEntry !== -1){saveTodos(todos)}
+    $: {
+        expandedEntry = expandedEntry;
+        saveTodos(todos);
+    }
 
     onMount(() => {
         todos = userData.todos
@@ -58,8 +61,8 @@
                     <div class="entry"
                     transition:slide={{duration : 200, easing: cubicOut}}>
                         <Entry
-                            on:expand={() =>{expandedEntry = entry}}
-                            bind:todo={entry}/>
+                            bind:entry={entry}
+                            on:expand={() =>{expandedEntry = entry}}/>
                     </div>
                 {/each}
             </div>
