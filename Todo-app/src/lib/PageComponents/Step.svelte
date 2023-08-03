@@ -24,14 +24,24 @@
 
 </script>
 
-<div class="step-wrapper">
+<input type="checkbox"
+class:completed={step.completed}
+class="checkbox"
+bind:checked={step.completed}
 
+on:click={() => context.set(step.completed ? "done" : "checked")}
+on:mouseenter={() => {context.set(step.completed ? "checked" : 'done')}}
+on:mouseleave={() => context.set('null')}
+/>
+
+<div class="step-wrapper">
     {#if step.completed}
         <p class="step-edit completed-task">{step.task}</p>
     {:else}
         <textarea
         spellcheck="false"
         class="step-edit"
+
         bind:this={textArea}
         bind:value={newStep}
 
@@ -61,21 +71,43 @@
         font-family: 'Montserrat';
     }
 
+    .checkbox[type="checkbox"] {
+        align-self: center;
+        appearance: none;
+
+        min-width: 1.75rem;
+        height: 1.75rem;
+
+        border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
+
+        margin: 0;
+        
+        background-color: #2C2F3A;
+        cursor: pointer;
+    }
+
+    .checkbox[type="checkbox"].completed{
+        background-color: #2C2F3A;
+    }
+
     .step-wrapper{
         display: grid;
         grid-auto-flow: row;
 
         justify-self: center;
-        padding: 0.25em 0.75em;
+        padding: 0.5em 0.5em;
+        margin-top: 0.25em;
+        width: 100%;
     }
 
     .step-wrapper::after{
         position: relative;
         content: "";
 
-        top: 2px;
+        top: 0.5em;
 
         height: 2px;
+        width: 100%;
         background: #2B3039;
     }
 

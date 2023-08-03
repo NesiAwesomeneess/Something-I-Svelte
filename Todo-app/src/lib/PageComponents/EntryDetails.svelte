@@ -7,7 +7,7 @@
     import Step from "./Step.svelte";
     
     export let entry = {task: '', steps: []};
-
+    
     let stepInput;
     let newStep = '';
     let placeHolder = 'Next Step'
@@ -83,18 +83,27 @@
 
     .wrapper{
         display: grid;
+        grid-template-columns: 100%;
 
-        max-width: 100%;
         border-radius: 1em;
         overflow: hidden;
     }
 
+    .step{
+        display: flex;
+    }
+
     .steps-container{
-        width: calc(100% - 1em);
-        padding-left: 0.25em;
+        width: 100%;
+        padding-left: 0.75em;
+        padding-top: 0.25em;
+        margin-left: 0.25em;
+
+        align-self: start;
 
         background-color: #191C24;
         border-radius: 0.5em;
+        overflow: hidden;
     }
 
     .entry-steps-container{
@@ -117,7 +126,7 @@
         resize: none;
 
         justify-self: center;
-        margin-left: 0.5em; 
+        margin-left: 2em; 
         
         font-size: 1rem;
         font-weight: 400;
@@ -148,6 +157,8 @@
         color: #F5F5F5;
     }
 
+    /* Title card. */
+
     .canvas{
         grid-row: 2;
         grid-column: 1;
@@ -167,7 +178,7 @@
         display: grid;
         grid-auto-flow: column;
         grid-template-columns: 0.25em;
-        gap: 0.5em;
+        gap: 1.5em;
 
         padding: 0.75em 1em;
 
@@ -175,6 +186,7 @@
         border-radius: 1em;
         cursor: default;
         user-select: none;
+        width: auto;
     }
 
     .task-title::before{
@@ -194,7 +206,7 @@
     .task-title span{
         color: #ffd5e4;
 
-        width: 100%;
+        width: calc(100% - 2em);
         font-size: 1.5rem;
         line-height: 1em;
         font-weight: 700;
