@@ -115,7 +115,7 @@ on:mouseleave={() => context.set('null')}
         text-align: left;
         resize: none;
 
-        width: 100%;
+        width: calc(100% - 1em);
 
         margin-left: 0.5em;
         

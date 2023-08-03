@@ -9,6 +9,15 @@
     export let entry = {task: '', steps: []};
     
     let stepInput;
+    $: if ((newStep.length > 0) && stepInput){
+        resize()
+    }
+
+    function resize(){
+        stepInput.style.height = "1.25rem";
+        stepInput.style.height = stepInput.scrollHeight - 24 + "px";
+    }
+
     let newStep = '';
     let placeHolder = 'Next Step'
 
@@ -132,6 +141,7 @@
         font-weight: 400;
         font-style: italic;
         
+        width: calc(100% - 4.5em);
         height: 1.25rem;
         color: #ACACAF;
         
@@ -206,7 +216,7 @@
     .task-title span{
         color: #ffd5e4;
 
-        width: calc(100% - 2em);
+        width: 100%;
         font-size: 1.5rem;
         line-height: 1em;
         font-weight: 700;
