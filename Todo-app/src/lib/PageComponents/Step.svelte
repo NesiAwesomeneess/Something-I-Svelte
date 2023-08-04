@@ -1,13 +1,15 @@
 <script>
+    import { desktopMode } from '../stores/pageStore';
+
     export let step;
     let newStep = step.task
 
     let textArea;
-    $: if ((newStep.length > 0) && textArea){
-        resize()
-    }
+    let textAreaBox;
+    $: resize(textAreaBox)
 
     function resize(){
+        if (!textArea){return}
         textArea.style.height = "1.5rem";
         textArea.style.height = textArea.scrollHeight + "px";
     }
@@ -44,6 +46,7 @@ on:mouseleave={() => context.set('null')}
 
         bind:this={textArea}
         bind:value={newStep}
+        bind:borderBoxSize={textAreaBox}
 
         on:mouseenter={() => context.set('edit')}
         on:mouseleave={() => context.set('null')}
@@ -117,6 +120,7 @@ on:mouseleave={() => context.set('null')}
 
         width: calc(100% - 1.25em);
 
+        padding-top: 0.5em;
         margin-left: 0.5em;
         
         font-size: 1rem;
@@ -145,6 +149,12 @@ on:mouseleave={() => context.set('null')}
 
         word-wrap: break-word;
         height: auto;
+    }
+
+    @media (max-width: 690px){
+        .step-edit{
+            font-size: 1.2em;
+        }
     }
     
 </style>

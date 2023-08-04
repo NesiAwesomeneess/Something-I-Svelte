@@ -1,8 +1,10 @@
 <script>
+    import { entryMode } from '../stores/pageStore'
     import { createEventDispatcher } from 'svelte';
 
     const dispatch = createEventDispatcher();
     function expandEntry() {
+        entryMode.set(false)
 		dispatch('expand');
 	}
 
@@ -11,11 +13,11 @@
     let spellCheck = false
     
     let textArea;
-    $: if ((newTask.length > 0) && textArea){
-        resize()
-    }
+    let textAreaBox;
+    $: resize(textAreaBox)
     
     function resize(){
+        if (!textArea){return}
         textArea.style.height = "1.5rem";
         textArea.style.height = textArea.scrollHeight + "px";
     }
@@ -53,6 +55,7 @@ on:click|self={expandEntry}>
         spellcheck={spellCheck}
         bind:this={textArea}
         bind:value={newTask}
+        bind:borderBoxSize={textAreaBox}
 
         on:mouseenter={() => context.set('edit')}
         on:mouseleave={() => context.set('null')}

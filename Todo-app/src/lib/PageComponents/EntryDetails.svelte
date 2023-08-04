@@ -9,11 +9,13 @@
     export let entry;
     
     let stepInput;
-    $: if ((newStep.length > 0) && stepInput){
-        resize()
-    }
+    $: resize(newStep.length)
 
     function resize(){
+        if (!stepInput){
+            return
+        }
+
         stepInput.style.height = "1.25rem";
         stepInput.style.height = stepInput.scrollHeight - 24 + "px";
     }
@@ -29,17 +31,22 @@
     }
 
     import { context, pointerEnabled } from "../stores/pointerStore"
+    import { entryMode } from "../stores/pageStore";
 
 </script>
 
 <div class="wrapper">
     <div class="task-title">
+        <button class="backbutton"
+        on:click={() => entryMode.set(true)}></button>
         <span>{entry.task}</span>
     </div>
-    <div class="canvas">
-        <Canvas>
-            <BackgroundLayout/>
-        </Canvas>
+    <div class="canvas-container">
+        <div class="canvas">
+            <Canvas>
+                <BackgroundLayout/>
+            </Canvas>
+        </div>
     </div>
 
     <div class="entry-steps-container">
@@ -79,7 +86,6 @@
                         }
                     }} />
             </div>
-
         </div>
     </div>
 </div>
@@ -93,6 +99,7 @@
     }
 
     .wrapper{
+        position: relative;
         display: grid;
         grid-template-columns: 100%;
 
@@ -105,10 +112,12 @@
     }
 
     .steps-container{
+        position: relative;
         display: flex;
         flex-direction: column;
         
         width: 100%;
+
         padding-left: 0.75em;
         padding-top: 0.25em;
         margin-left: 0.25em;
@@ -125,7 +134,6 @@
         flex-direction: column;
 
         align-items: center;
-        height: 100%;
 
         grid-row: 2;
         grid-column: 1;
@@ -184,23 +192,29 @@
         font-style:normal;
         font-weight: 600;
         color: #F5F5F5;
+        cursor: text;
     }
 
     /* Title card. */
 
-    .canvas{
+    .canvas-container{
+        display: flex;
         grid-row: 2;
         grid-column: 1;
 
         position: relative;
         bottom: 100%;
-
-        height: 100vh;
-
+        
+        height: 100%;
         border-radius: 1em;
         max-width: 100%;
         overflow: hidden;
         z-index: -1;
+    }
+
+    .canvas{
+        width: 100%;
+        align-self: flex-end;
     }
 
     .task-title{
@@ -218,18 +232,18 @@
         width: auto;
     }
 
-    .task-title::before{
-        position: relative;
-        content: "";
-
+    .backbutton{
+        appearance: none;
+        border: none;
+        
         align-self: center;
         justify-self: center;
 
         background-color: #12161ffa;
 
-        border-radius: 0.25em;
+        border-radius: 0.5em;
         width: 100%;
-        height: 100%;
+        height: 24px;
     }
 
     .task-title span{
@@ -240,4 +254,18 @@
         line-height: 1em;
         font-weight: 700;
     }
+
+    @media (max-width: 690px){
+        .task-title{
+            grid-template-columns: 1.75em;
+            gap: 1em;
+            padding: 1em;
+        }
+
+        .backbutton{
+            height: 28px;
+        }
+
+    }
+
 </style>

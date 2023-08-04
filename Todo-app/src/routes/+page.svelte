@@ -15,6 +15,7 @@
     import { cubicOut, cubicIn, elasticOut, quadOut } from 'svelte/easing';
 
     import { userData, saveTodos } from '../lib/stores/userStore';
+    import {desktopMode, entryMode} from '../lib/stores/pageStore'
 
     let expandedEntry = {task: '', id: 0};
     let newTask = ''
@@ -64,23 +65,22 @@
     //RESIZE ANIMATIONS.
     
     let width = 0;
-    let entryMode = true
-    $: desktopMode = Number(width > 690)
-    $: entryMode = !desktopMode
+    $: desktopMode.set(Number(width > 690))
+    $: entryMode.set(!$desktopMode)
 
     let viewOffset = tweened(0, {
         duration: 250,
         easing: quadOut
     })
 
-    $: viewOffset.set(Number(!desktopMode) * Number(!entryMode) * 50)
+    $: viewOffset.set(Number(!$desktopMode) * Number(!$entryMode) * 50)
     
     let pageOffset = tweened( 0 , {
         duration: 600,
         easing: elasticOut
     })
 
-    $: pageOffset.set(Number(!desktopMode) * -2)
+    $: pageOffset.set(Number(!$desktopMode) * -2)
 
     let contentHeight = tweened( 72 , {
         duration: 100,
@@ -88,7 +88,7 @@
     })
 
     $: contentHeight.set(
-        (Number(desktopMode) * 72) + (Number(!desktopMode) * 80)
+        (Number($desktopMode) * 72) + (Number(!$desktopMode) * 80)
     )
 
 </script>
@@ -109,10 +109,7 @@
                             <Entry bind:entry={expandedEntry}/>
                         {:else}
                             <Entry bind:entry={entry}
-                            on:expand={() => {
-                                expandedEntry = entry;
-                                entryMode = false
-                            }}/>
+                            on:expand={() => expandedEntry = entry}/>
                         {/if}
                     </div>
                 {/each}
@@ -228,8 +225,8 @@
     }
 
     .steps-wrapper{
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-auto-flow: column;
         
         max-width: 28em;
         width: 100%;
@@ -246,9 +243,20 @@
 
     }
 
+    .steps-container{
+        height: 100%;
+        width: 100%;
+
+        grid-row: 1;
+        grid-column: 1;
+    }
+
     .steps-wrapper::after{
         position: relative;
         content: "";
+
+        grid-row: 1;
+        grid-column: 1;
 
         width: 0.25em;
         height: 100%;
@@ -257,11 +265,6 @@
         
         border-radius: 0.25em;
         background-color: #12161F;
-    }
-
-    .steps-container{
-        height: 0;
-        width: 100%;
     }
 
     .decoration-frame{
@@ -372,7 +375,11 @@
 
     @media (max-width: 690px){
         .content-wrapper{
-            grid-template-columns: 90vw 75vw;
+            grid-template-columns: 90vw 78vw;
+        }
+
+        .steps-wrapper{
+            max-width: 36em;
         }
     }
     
