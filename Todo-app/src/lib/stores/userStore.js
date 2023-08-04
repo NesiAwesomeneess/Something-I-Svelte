@@ -20,6 +20,10 @@ export let userData = { username: "", todos: [] };
 export const userDataLoading = writable(true);
 
 export async function saveTodos(tasks) {
+  if (!tasks.length) {
+    return;
+  }
+
   const userDocReference = doc(db, "users", user.uid);
   const data = { todos: tasks };
   console.log(tasks);

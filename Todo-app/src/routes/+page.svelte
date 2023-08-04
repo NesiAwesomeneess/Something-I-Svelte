@@ -10,8 +10,9 @@
     import BookmarkButton from '../lib/PageComponents/BookmarkButton.svelte';
 
     import { onMount } from 'svelte';
-    import { blur, fade, slide } from 'svelte/transition';
-    import { cubicOut, cubicIn } from 'svelte/easing';
+    import { tweened } from 'svelte/motion';
+    import { fade, slide } from 'svelte/transition';
+    import { cubicOut, cubicIn, elasticOut, quadOut } from 'svelte/easing';
 
     import { userData, saveTodos } from '../lib/stores/userStore';
 
@@ -19,21 +20,17 @@
     let newTask = ''
     let todos = []
 
-    $: {
-        saveTodos(todos);
-        expandedEntry = expandedEntry;
-    }
-
     onMount(() => {
         todos = userData.todos
     })
     
     function addTodo(){
-        if (newTask){
+    if (newTask){
             const entry = {task: newTask, 
                 id : crypto.randomUUID(), 
                 steps: [],
                 date: new Date().toUTCString().slice(5, 16)}
+
             todos = [...todos, entry]
             expandedEntry = entry
         }
@@ -43,8 +40,14 @@
     function removeCompleted(){
         todos = todos.filter(({completed}) => {return !(completed)});
     }
+    
+    $: {
+        saveTodos(todos);
+        expandedEntry = expandedEntry;
+    }
 
     let placeHolder = 'New Task'
+
     let taskInput;
     $: if ((newTask.length > 0) && taskInput){
         resize()
@@ -55,11 +58,48 @@
         taskInput.style.height = taskInput.scrollHeight - 24 + "px";
     }
     
+    //pointer stuff.
     import { context, pointerEnabled } from "../lib/stores/pointerStore";
+
+    //RESIZE ANIMATIONS.
+    
+    let width = 0;
+    let entryMode = true
+    $: desktopMode = Number(width > 690)
+    $: entryMode = !desktopMode
+
+    let viewOffset = tweened(0, {
+        duration: 250,
+        easing: quadOut
+    })
+
+    $: viewOffset.set(Number(!desktopMode) * Number(!entryMode) * 50)
+    
+    let pageOffset = tweened( 0 , {
+        duration: 600,
+        easing: elasticOut
+    })
+
+    $: pageOffset.set(Number(!desktopMode) * -2)
+
+    let contentHeight = tweened( 72 , {
+        duration: 100,
+        easing: cubicOut
+    })
+
+    $: contentHeight.set(
+        (Number(desktopMode) * 72) + (Number(!desktopMode) * 80)
+    )
+
 </script>
 
+<svelte:window bind:innerWidth={width}/>
+
 <main class="page">
-    <div class="content-wrapper">
+    <div class="content-wrapper"
+        style="
+        right: {$pageOffset + $viewOffset}%;
+        height: {$contentHeight}%;">
         <div class="todo-list">
             <div class="entries-wrapper">
                 {#each todos as entry (entry.id)}
@@ -69,7 +109,10 @@
                             <Entry bind:entry={expandedEntry}/>
                         {:else}
                             <Entry bind:entry={entry}
-                            on:expand={() => expandedEntry = entry}/>
+                            on:expand={() => {
+                                expandedEntry = entry;
+                                entryMode = false
+                            }}/>
                         {/if}
                     </div>
                 {/each}
@@ -78,6 +121,7 @@
             <textarea 
                 placeholder={placeHolder}
                 class="entry-input"
+                
                 bind:this={taskInput}
                 bind:value={newTask}
                 
@@ -102,7 +146,10 @@
                         event.target.blur();
                         return
                     }
-                }} />
+                }} 
+                
+                
+                />
             
             <BookmarkButton on:clicked={removeCompleted}/>
         </div>
@@ -135,7 +182,6 @@
     </div>
 
     <PointerTrailer/>
-
 </main>
 
 <style>
@@ -178,17 +224,14 @@
 
         width: 80%;
 
-        max-height: 40em;
-        height: 75%;
-
         place-content: center;
     }
 
     .steps-wrapper{
         display: flex;
         flex-direction: column;
-
-        max-width: 22em;
+        
+        max-width: 28em;
         width: 100%;
         height: 100%;
 
@@ -226,7 +269,6 @@
         position: relative;
         left: -4px;
 
-        max-height: 40em;
         height: calc(100% - 0.25em);
         max-width: 36em;
         width: calc(100% - 3.125em);
@@ -326,6 +368,12 @@
         font-weight: 600;
         color: #F5F5F5;
         cursor: text;
+    }
+
+    @media (max-width: 690px){
+        .content-wrapper{
+            grid-template-columns: 90vw 75vw;
+        }
     }
     
 </style>

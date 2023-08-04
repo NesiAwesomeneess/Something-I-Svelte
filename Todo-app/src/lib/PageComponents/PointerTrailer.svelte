@@ -2,7 +2,6 @@
     import { context, pointerEnabled, pointerPosition } from '../stores/pointerStore'
     import { spring } from 'svelte/motion';
     import RiveComponent from '../RiveComponent.svelte';
-    import { onMount } from 'svelte';
     
     let coords = spring({x: 0, y: 0}, {
         stiffness: 0.02,
