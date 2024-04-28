@@ -44,6 +44,8 @@ export async function syncData() {
   }
 }
 
+// LOGIN DETAILS
+
 //This is called when any change is made to the authenticator.
 const authorityChange = auth.onAuthStateChanged(async (currentUser) => {
   if (!currentUser) {
